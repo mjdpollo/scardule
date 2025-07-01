@@ -1,5 +1,10 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+# TOKEN INFO
+
+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
+git url : git remote set-url origin https://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@github.com/mjthepollo/scarmotors_next.git
+
 ## Getting Started
 
 First, run the development server:
