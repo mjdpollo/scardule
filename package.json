@@ -4,9 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "check": "tsc --noEmit",
+    "clean": "rm -rf .next node_modules && npm install",
+    "build": "rm -rf .next && npm run check && next build",
+    "verify-build": "npm run build && rm -rf .next ",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "next test"
   },
   "dependencies": {
     "react": "^19.0.0",
