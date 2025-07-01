@@ -21,9 +21,6 @@ export default function SchedulerScheduleRow({schedule}: Props) {
         {schedule.number_of_repairs}
       </td>
       <td className="border border-black text-base px-4 py-3">
-        {schedule.estimate.toLocaleString()}원
-      </td>
-      <td className="border border-black text-base px-4 py-3">
         {schedule.stock_date ? formatMD(schedule.stock_date) : "-"}
       </td>
       <td className="border border-black text-base px-4 py-3">
@@ -40,6 +37,9 @@ export default function SchedulerScheduleRow({schedule}: Props) {
       </td>
       <td className="border border-black text-base px-4 py-3">
         {schedule.color_code}
+      </td>
+      <td className="border border-black text-base px-4 py-3">
+        {schedule.estimate.toLocaleString()}원
       </td>
     </tr>
   );

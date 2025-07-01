@@ -36,3 +36,7 @@ th {
   /* or */
   background-color: var(--scartech-orange); /* for background */
 }
+
+.react-datepicker-wrapper {
+  width: 100%;
+}

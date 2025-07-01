@@ -1,5 +1,5 @@
 export type Schedule = {
-  id: number;
+  id: number | null;
   stock_date: string | null;
   release_date: string | null;
   car_model: string;
@@ -26,5 +26,5 @@ export type Schedule = {
   bonnet: boolean;
   hood: boolean;
 
-  number_of_repairs: number;
+  number_of_repairs: number | null;
 };

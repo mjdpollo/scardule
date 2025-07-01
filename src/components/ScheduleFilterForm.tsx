@@ -11,6 +11,7 @@ import Link from "next/link";
 import {useEffect, useState} from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import ScheduleModal from "./ScheduleModal";
 
 export type FilterFormData = {
   stock_date__gte?: Date;
@@ -44,7 +45,47 @@ export type FilterFormData = {
   hood?: string;
 };
 
+const initialSchedule: Schedule = {
+  id: null,
+  stock_date: null,
+  release_date: null,
+  car_model: "",
+  car_number: "",
+  color_code: "",
+  supplier: "",
+  charger: "",
+  content: "",
+  estimate: 0,
+  note: "",
+  status: "대기",
+  front_bumber: false,
+  left_front_fender: false,
+  right_front_fender: false,
+  left_front_door: false,
+  right_front_door: false,
+  left_rear_door: false,
+  right_rear_door: false,
+  left_rear_fender: false,
+  right_rear_fender: false,
+  rear_bumper: false,
+  rear_door: false,
+  bonnet: false,
+  hood: false,
+  number_of_repairs: 0,
+};
+
 export default function ScheduleFilterFeidls() {
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = () => setShowModal(true);
+  const closeModal = () => setShowModal(false);
+
+  const handleSaveSchedule = (data: Schedule) => {
+    console.log("💾 Saving schedule:", data);
+    // TODO: send POST or PUT request to backend
+    closeModal();
+  };
+
   const {register, handleSubmit, setValue, watch, reset} = useForm();
   const [schedules, setSchedules] = useState<Schedule[]>([]);
 
@@ -105,7 +146,7 @@ export default function ScheduleFilterFeidls() {
                 className="border px-2 py-1 w-full"
               />
             </div>
-            <div className="col-span-2">
+            <div className="col-span-1">
               <label className="block mb-1">출고일 이전</label>
               <DatePicker
                 selected={watch("release_date__lte") || null}
@@ -167,7 +208,7 @@ export default function ScheduleFilterFeidls() {
                 className="border px-2 py-1 w-full"
               />
             </div>
-            <div className="col-span-3">
+            <div className="col-span-1">
               <label className="block mb-1">입고일 이전</label>
               <DatePicker
                 selected={watch("stock_date__lte") || null}
@@ -179,7 +220,7 @@ export default function ScheduleFilterFeidls() {
                 className="border px-2 py-1 w-full"
               />
             </div>
-
+            <div className="col-span-2"></div>
             <div>
               <label className="block mb-1">입고처</label>
               <input
@@ -276,6 +317,13 @@ export default function ScheduleFilterFeidls() {
 
         <div className="flex gap-4 mt-6 justify-center">
           <button
+            onClick={openModal}
+            className="w-24 h-10 bg-orange-500 text-white px-4 py-2 rounded shadow"
+          >
+            스케줄
+          </button>
+
+          <button
             type="submit"
             className="w-24 h-10 bg-blue-600 text-white py-2 px-6 rounded shadow"
           >
@@ -338,6 +386,12 @@ export default function ScheduleFilterFeidls() {
           </tbody>
         </table>
       </div>
+      <ScheduleModal
+        visible={showModal}
+        onClose={closeModal}
+        onSubmit={handleSaveSchedule}
+        initialData={initialSchedule}
+      />
     </>
   );
 }
