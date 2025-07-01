@@ -11,7 +11,7 @@ type DecodedToken = {
   iat: number;
   jti: string;
   user_id: number;
-  role: "admin" | "user"; // tighten this if roles are fixed
+  role: "scheduler" | "user"; // tighten this if roles are fixed
   username: string;
 };
 
@@ -34,8 +34,8 @@ export default function Home() {
     const decoded = jwtDecode<DecodedToken>(token!);
     const userRole = decoded.role;
 
-    if (userRole === "admin") {
-      router.replace("/admin");
+    if (userRole === "scheduler") {
+      router.replace("/scheduler");
     } else {
       router.replace("/user");
     }
