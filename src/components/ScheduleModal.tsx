@@ -1,6 +1,7 @@
 "use client";
 
 import {Schedule} from "@/type/schedule";
+import {useEffect} from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {useForm} from "react-hook-form";
@@ -18,39 +19,19 @@ export default function ScheduleModal({
   onSubmit,
   initialData,
 }: Props) {
-  const {register, handleSubmit, setValue, watch} = useForm<Schedule>({
-    defaultValues: initialData ?? {
-      id: null,
-      stock_date: null,
-      release_date: null,
-      car_model: "",
-      car_number: "",
-      color_code: "",
-      supplier: "",
-      charger: "",
-      content: "",
-      estimate: 0,
-      note: "",
-      status: "대기",
-      front_bumber: false,
-      left_front_fender: false,
-      right_front_fender: false,
-      left_front_door: false,
-      right_front_door: false,
-      left_rear_door: false,
-      right_rear_door: false,
-      left_rear_fender: false,
-      right_rear_fender: false,
-      rear_bumper: false,
-      rear_door: false,
-      bonnet: false,
-      hood: false,
-      number_of_repairs: null,
-    },
+  const {register, handleSubmit, setValue, watch, reset} = useForm<Schedule>({
+    defaultValues: initialData,
   });
 
-  if (!visible) return null;
+  console.log(initialData);
 
+  useEffect(() => {
+    if (initialData) {
+      reset(initialData);
+    }
+  }, [initialData, reset]);
+
+  if (!visible) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
       <div className="bg-white p-6 rounded-xl w-full max-w-5xl max-h-[90vh] overflow-y-auto">

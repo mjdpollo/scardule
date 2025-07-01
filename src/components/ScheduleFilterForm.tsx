@@ -75,8 +75,15 @@ const initialSchedule: Schedule = {
 };
 
 export default function ScheduleFilterFeidls() {
+  const [selectedSchedule, setSelectedSchedule] = useState<Schedule | null>(
+    null
+  );
   const [showModal, setShowModal] = useState(false);
 
+  const openCreateModal = () => {
+    setSelectedSchedule(initialSchedule);
+    openModal();
+  };
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
 
@@ -317,10 +324,10 @@ export default function ScheduleFilterFeidls() {
 
         <div className="flex gap-4 mt-6 justify-center">
           <button
-            onClick={openModal}
+            onClick={openCreateModal}
             className="w-24 h-10 bg-orange-500 text-white px-4 py-2 rounded shadow"
           >
-            스케줄
+            스케줄 +
           </button>
 
           <button
@@ -368,7 +375,14 @@ export default function ScheduleFilterFeidls() {
             {Object.entries(groupByReleaseDate).map(([date, rows]) => (
               <>
                 {rows.map((schedule) => (
-                  <SchedulerScheduleRow key={schedule.id} schedule={schedule} />
+                  <SchedulerScheduleRow
+                    key={schedule.id}
+                    schedule={schedule}
+                    onRightClick={(schedule) => {
+                      setSelectedSchedule(schedule);
+                      openModal();
+                    }}
+                  />
                 ))}
                 <tr className="bg-yellow-100 font-bold text-right">
                   <td colSpan={10} className="border border-black px-4 py-2">
@@ -401,7 +415,7 @@ export default function ScheduleFilterFeidls() {
         visible={showModal}
         onClose={closeModal}
         onSubmit={handleSaveSchedule}
-        initialData={initialSchedule}
+        initialData={selectedSchedule ?? undefined}
       />
     </>
   );

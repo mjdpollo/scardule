@@ -3,11 +3,18 @@ import {Schedule} from "@/type/schedule";
 
 interface Props {
   schedule: Schedule;
+  onRightClick: (schedule: Schedule) => void;
 }
 
-export default function SchedulerScheduleRow({schedule}: Props) {
+export default function SchedulerScheduleRow({schedule, onRightClick}: Props) {
   return (
-    <tr className="border-b text-center text-sm hover:bg-gray-50">
+    <tr
+      className="border-b text-center text-sm hover:bg-gray-50"
+      onContextMenu={(e) => {
+        e.preventDefault();
+        onRightClick?.(schedule);
+      }}
+    >
       <td className="border border-black text-base px-4 py-3">
         {schedule.car_number}
       </td>
