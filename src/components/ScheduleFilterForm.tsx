@@ -383,6 +383,17 @@ export default function ScheduleFilterFeidls() {
                 </tr>
               </>
             ))}
+            <tr className="bg-yellow-200 font-bold text-right">
+              <td colSpan={10} className="border border-black px-4 py-2">
+                총 선견적
+              </td>
+              <td className="border border-black px-4 py-2 text-center">
+                {schedules
+                  .reduce((sum, s) => sum + (s.estimate || 0), 0)
+                  .toLocaleString()}
+                원
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
