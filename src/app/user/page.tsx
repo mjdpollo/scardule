@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import UserScheduleRow from "@/components/UserScheduleRow";
 import {Schedule} from "@/type/schedule";
 import {useEffect, useState} from "react";
+import {getScarTechURL} from "../utility/utility";
 
 export default function UserPage() {
   const [schedules, setSchedules] = useState<Schedule[]>([]);
@@ -12,7 +13,7 @@ export default function UserPage() {
     async function fetchSchedules() {
       try {
         const res = await fetch(
-          "http://localhost:8000/api/schedules/?status=\uB300\uAE30"
+          `${getScarTechURL()}/api/schedules/?status=\uB300\uAE30`
         );
         if (!res.ok) throw new Error("Failed to fetch schedules");
         const data = await res.json();

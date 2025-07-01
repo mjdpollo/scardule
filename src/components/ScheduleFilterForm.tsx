@@ -4,8 +4,10 @@ import axios from "axios";
 import qs from "qs";
 import {useForm} from "react-hook-form";
 
+import {getScarTechURL} from "@/app/utility/utility";
 import SchedulerScheduleRow from "@/components/SchedulerScheduleRow";
 import {Schedule} from "@/type/schedule";
+import Link from "next/link";
 import {useEffect, useState} from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -54,9 +56,7 @@ export default function ScheduleFilterFeidls() {
         value instanceof Date ? value.toISOString().slice(0, 10) : value,
     });
 
-    const res = await axios.get(
-      `http://localhost:8000/api/schedules/?${query}`
-    );
+    const res = await axios.get(`${getScarTechURL()}/api/schedules/?${query}`);
     console.log(res.data);
     setSchedules(res.data);
   };
@@ -277,7 +277,7 @@ export default function ScheduleFilterFeidls() {
         <div className="flex gap-4 mt-6 justify-center">
           <button
             type="submit"
-            className="bg-blue-600 text-white py-2 px-6 rounded shadow"
+            className="w-24 h-10 bg-blue-600 text-white py-2 px-6 rounded shadow"
           >
             검색
           </button>
@@ -286,10 +286,16 @@ export default function ScheduleFilterFeidls() {
             onClick={() => {
               reset();
             }}
-            className="bg-gray-400 text-white py-2 px-6 rounded shadow"
+            className="w-24 h-10 bg-gray-400 text-white py-2 px-6 rounded shadow"
           >
             초기화
           </button>
+          <Link
+            href="/user"
+            className="w-24 h-10 bg-green-400 text-white py-2 px-6 rounded shadow"
+          >
+            TODAY
+          </Link>
         </div>
       </form>
 
