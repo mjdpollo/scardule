@@ -26,9 +26,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex items-center justify-center`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-white text-black`}
       >
-        <Suspense fallback={<div>Loading page...</div>}>{children}</Suspense>
+        <main className="flex flex-col items-center justify-start min-h-screen w-full p-4">
+          <Suspense fallback={<div>Loading page...</div>}>{children}</Suspense>
+        </main>
       </body>
     </html>
   );

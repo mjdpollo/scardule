@@ -7,7 +7,7 @@ export default function Header() {
 
   return (
     <Link href={href} rel="noopener noreferrer">
-      <Image src="/scardule.png" alt="Scardule Logo" width={200} height={50} />
+      <Image src="/scardule.png" alt="Scardule Logo" width={600} height={100} />
     </Link>
   );
 }

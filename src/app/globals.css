@@ -3,6 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --scartech-orange: #fe6100;
 }
 
 @theme inline {
@@ -29,4 +30,9 @@ a:focus {
   outline: none;
   border: none;
   box-shadow: none;
+}
+
+th {
+  /* or */
+  background-color: var(--scartech-orange); /* for background */
 }
