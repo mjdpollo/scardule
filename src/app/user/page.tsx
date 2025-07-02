@@ -28,7 +28,7 @@ export default function UserPage() {
   return (
     <div className="flex flex-col min-h-screen items-center justify-start px-4 py-8">
       <Header />
-      <div className="overflow-x-auto w-full max-w-6xl">
+      <div className="overflow-x-auto w-full max-w-7xl">
         <table className="table-auto w-full border-collapse border border-black text-base">
           <thead>
             <tr className="bg-gray-100 text-center">
@@ -37,7 +37,9 @@ export default function UserPage() {
                 차량번호
               </th>
               <th className="border border-black text-base px-4 py-3">차종</th>
-              <th className="border border-black text-base px-4 py-3">내용</th>
+              <th className="border border-black text-base px-4 py-3">
+                작업내용
+              </th>
               <th className="border border-black text-base px-4 py-3">판수</th>
               <th className="border border-black text-base px-4 py-3">
                 입고일

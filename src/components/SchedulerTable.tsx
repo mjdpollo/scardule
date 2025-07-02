@@ -25,7 +25,7 @@ export default function SchedulerTable({
             <th className="border border-black px-4 py-2"></th>
             <th className="border border-black px-4 py-2">차량번호</th>
             <th className="border border-black px-4 py-2">차종</th>
-            <th className="border border-black px-4 py-2">내용</th>
+            <th className="border border-black px-4 py-2">작업내용</th>
             <th className="border border-black px-4 py-2">수리횟수</th>
             <th className="border border-black px-4 py-2">입고일</th>
             <th className="border border-black px-4 py-2">출고일</th>

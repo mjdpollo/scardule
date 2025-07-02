@@ -8,6 +8,7 @@ export type Schedule = {
   supplier: string;
   charger: string;
   content: string | null;
+  working_content: string | null;
   estimate: number;
   note: string | null;
   status: string;

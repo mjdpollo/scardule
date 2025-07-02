@@ -17,6 +17,7 @@ const creatingSchuedule: Schedule = {
   supplier: "",
   charger: "",
   content: "",
+  working_content: null,
   estimate: 0,
   note: "",
   status: "대기",

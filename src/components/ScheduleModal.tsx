@@ -217,6 +217,7 @@ const labelMap: Record<keyof Schedule, string> = {
   supplier: "입고처",
   charger: "담당자",
   content: "작업내용",
+  working_content: "작업내용",
   estimate: "선견적",
   note: "비고",
   status: "상태",

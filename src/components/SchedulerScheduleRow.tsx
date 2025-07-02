@@ -28,7 +28,7 @@ export default function SchedulerScheduleRow({
         {schedule.car_model}
       </td>
       <td className="border border-black text-base px-4 py-3">
-        {schedule.content ?? "-"}
+        {schedule.working_content ?? "-"}
       </td>
       <td className="border border-black text-base px-4 py-3">
         {schedule.number_of_repairs}
