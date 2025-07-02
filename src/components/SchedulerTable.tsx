@@ -41,7 +41,7 @@ export default function SchedulerTable({
           {Object.entries(groupByReleaseDate).map(([date, rows]) => (
             <Fragment key={date.toString()}>
               <tr className="bg-white-100 font-bold text-center">
-                <td colSpan={12} className="border border-black px-4 py-2">
+                <td colSpan={13} className="border border-black px-4 py-2">
                   {date}
                 </td>
               </tr>
