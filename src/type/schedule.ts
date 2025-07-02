@@ -36,6 +36,7 @@ export enum BPXP {
 }
 
 export enum STATUS {
+  EMERGENCY = "응급",
   WAIT = "대기",
   WORKING = "작업중",
   COMPLETE = "완료",

@@ -49,6 +49,10 @@ textarea {
   border-radius: 0.25rem;
 }
 
+.emergency_status {
+  @apply bg-red-500 text-white px-2 py-1;
+}
+
 .working_status {
   @apply bg-lime-500 text-white px-2 py-1;
 }

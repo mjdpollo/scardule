@@ -72,6 +72,8 @@ function formatMD(dateStr: string) {
 
 function getStatusClassName(status: STATUS) {
   switch (status) {
+    case STATUS.EMERGENCY:
+      return "emergency_status";
     case STATUS.WAIT:
       return "wait_status";
     case STATUS.COMPLETE:
