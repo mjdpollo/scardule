@@ -1,4 +1,11 @@
-import {useFormContext} from "react-hook-form";
+// BPXPField.tsx
+import {WithSelectField} from "@/components/WithSelectField";
+
+const options = [
+  {value: "", label: "-"},
+  {value: "BP", label: "BP"},
+  {value: "XP", label: "XP"},
+];
 
 export default function BPXPField({
   name,
@@ -7,15 +14,13 @@ export default function BPXPField({
   name: string;
   label: string;
 }) {
-  const {register} = useFormContext();
+  const Field = WithSelectField(name, options);
   return (
-    <div className="flex flex-col">
-      <label className="font-medium mb-1">{label}</label>
-      <select {...register(name)} className="border px-2 py-1">
-        <option value="">-</option>
-        <option value="BP">BP</option>
-        <option value="XP">XP</option>
-      </select>
-    </div>
+    <>
+      <div className="col-span-1">
+        <label className="block mb-1">{label}</label>
+        <Field />
+      </div>
+    </>
   );
 }

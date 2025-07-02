@@ -40,3 +40,8 @@ th {
 .react-datepicker-wrapper {
   width: 100%;
 }
+
+input,
+textarea {
+  border-radius: 0.25rem;
+}

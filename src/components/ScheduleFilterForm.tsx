@@ -1,16 +1,17 @@
 "use client";
 
-import {FormProvider, useForm} from "react-hook-form";
-
 import {getScarTechURL} from "@/app/utility/utility";
 import BPXPField from "@/components/BPXPField";
 import {Schedule} from "@/type/schedule";
+import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/20/solid"; // 또는 24/solid
 import axios from "axios";
 import Link from "next/link";
 import qs from "qs";
 import {Dispatch, SetStateAction, useEffect, useState} from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import {FormProvider, useForm} from "react-hook-form";
+import {StatusSelectField} from "./StatusSelectField";
 
 export type FilterFormData = {
   stock_date__gte?: Date;
@@ -106,6 +107,10 @@ export default function ScheduleFilterFeidls({
                 className="border px-2 py-1 w-full"
               />
             </div>
+            <div className="col-span-1">
+              <label className="block mb-1">상태</label>
+              <StatusSelectField />
+            </div>
           </div>
         </div>
 
@@ -114,7 +119,13 @@ export default function ScheduleFilterFeidls({
           onClick={() => setEnabledDetailSearch((prev) => !prev)}
         >
           <h2 className="text-lg font-semibold">상세 검색</h2>
-          <span>{enabledDetailSearch ? "▲" : "▼"}</span>
+          <span className="ml-1">
+            {enabledDetailSearch ? (
+              <ChevronUpIcon className="w-4 h-4 text-gray-500" />
+            ) : (
+              <ChevronDownIcon className="w-4 h-4 text-gray-500" />
+            )}
+          </span>
         </div>
         <hr />
 
@@ -234,14 +245,6 @@ export default function ScheduleFilterFeidls({
                     {...methods.register("estimate__lte")}
                     placeholder="EX: 800000"
                     type="number"
-                    className="border px-2 py-1 w-full"
-                  />
-                </div>
-                <div>
-                  <label className="block mb-1">상태</label>
-                  <input
-                    {...methods.register("status")}
-                    placeholder="EX: 대기"
                     className="border px-2 py-1 w-full"
                   />
                 </div>
