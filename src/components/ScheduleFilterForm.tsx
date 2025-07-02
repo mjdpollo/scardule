@@ -326,7 +326,7 @@ export default function ScheduleFilterFeidls({
             다운로드
           </button>
           <Link
-            href={`${getScarTechURL()}/api/download/`}
+            href="/today"
             className="w-30 h-10 bg-yellow-300 text-white py-2 px-6 rounded shadow flex items-center justify-center"
           >
             TODAY
