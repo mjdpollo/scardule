@@ -1,10 +1,11 @@
 // BPXPField.tsx
 import {WithSelectField} from "@/components/WithSelectField";
+import {BPXP} from "@/type/schedule";
 
 const options = [
   {value: "", label: "-"},
-  {value: "BP", label: "BP"},
-  {value: "XP", label: "XP"},
+  {value: BPXP.BP, label: "BP"},
+  {value: BPXP.XP, label: "XP"},
 ];
 
 export default function BPXPField({

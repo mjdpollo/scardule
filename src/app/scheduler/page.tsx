@@ -4,8 +4,11 @@ import Header from "@/components/Header";
 import ScheduleFilterForm from "@/components/ScheduleFilterForm";
 import ScheduleModal from "@/components/ScheduleModal";
 import SchedulerTable from "@/components/SchedulerTable";
-import {Schedule} from "@/type/schedule";
-import {useState} from "react";
+import {Schedule, STATUS} from "@/type/schedule";
+import axios from "axios";
+import {useEffect, useState} from "react";
+import {FormProvider, useForm} from "react-hook-form";
+import {getQueryFromFormData, getScarTechURL} from "../utility/utility";
 
 const creatingSchuedule: Schedule = {
   id: null,
@@ -20,20 +23,20 @@ const creatingSchuedule: Schedule = {
   working_content: null,
   estimate: 0,
   note: "",
-  status: "대기",
-  front_bumper: false,
-  left_front_fender: false,
-  right_front_fender: false,
-  left_front_door: false,
-  right_front_door: false,
-  left_rear_door: false,
-  right_rear_door: false,
-  left_rear_fender: false,
-  right_rear_fender: false,
-  rear_bumper: false,
-  rear_door: false,
-  bonnet: false,
-  hood: false,
+  status: STATUS.WAIT,
+  front_bumper: null,
+  left_front_fender: null,
+  right_front_fender: null,
+  left_front_door: null,
+  right_front_door: null,
+  left_rear_door: null,
+  right_rear_door: null,
+  left_rear_fender: null,
+  right_rear_fender: null,
+  rear_bumper: null,
+  rear_door: null,
+  bonnet: null,
+  hood: null,
   number_of_repairs: 0,
 };
 
@@ -41,6 +44,10 @@ export default function Home() {
   const [selectedSchedule, setSelectedSchedule] =
     useState<Schedule>(creatingSchuedule);
   const [showModal, setShowModal] = useState(false);
+  const scheduleModalForm = useForm<Schedule>({
+    defaultValues: selectedSchedule,
+  });
+  const scheduleFilterForm = useForm();
 
   const openCreateScheduleModal = () => {
     setSelectedSchedule(creatingSchuedule);
@@ -49,35 +56,60 @@ export default function Home() {
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
 
-  const handleSaveSchedule = (schedule: Schedule) => {
+  const handleSearch = async () => {
+    const data = scheduleFilterForm.getValues();
+    const query = getQueryFromFormData(data);
+    const res = await axios.get(`${getScarTechURL()}/api/schedules/?${query}`);
+    setSchedules(res.data);
+  };
+
+  const handleSaveSchedule = async (schedule: Schedule) => {
     console.log("💾 Saving schedule:", schedule);
     if (schedule.id) {
-      //UPDATE
+      const updateRes = await axios.put(
+        `${getScarTechURL()}/api/schedules/${schedule.id}/`,
+        schedule
+      );
+      console.log("updateRes : ", updateRes);
     } else {
-      //CREATE
+      const createRes = await axios.post(
+        `${getScarTechURL()}/api/schedules/`,
+        schedule
+      );
+      console.log("createRes : ", createRes);
     }
+    await handleSearch();
     closeModal();
   };
   const [schedules, setSchedules] = useState<Schedule[]>([]);
 
+  useEffect(() => {
+    handleSearch(); // fetch all schedules by default
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <Header />
-      <ScheduleFilterForm
-        setSchedules={setSchedules}
-        openCreateScheduleModal={openCreateScheduleModal}
-      />
+      <FormProvider {...scheduleFilterForm}>
+        <ScheduleFilterForm
+          handleSearch={handleSearch}
+          openCreateScheduleModal={openCreateScheduleModal}
+        />
+      </FormProvider>
       <SchedulerTable
         schedules={schedules}
         setSelectedSchedule={setSelectedSchedule}
         openModal={openModal}
       />
-      <ScheduleModal
-        visible={showModal}
-        onClose={closeModal}
-        onSubmit={handleSaveSchedule}
-        schedule={selectedSchedule}
-      />
+      <FormProvider {...scheduleModalForm}>
+        <ScheduleModal
+          visible={showModal}
+          onClose={closeModal}
+          onSubmit={handleSaveSchedule}
+          schedule={selectedSchedule}
+        />
+      </FormProvider>
     </>
   );
 }

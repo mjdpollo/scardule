@@ -11,21 +11,32 @@ export type Schedule = {
   working_content: string | null;
   estimate: number;
   note: string | null;
-  status: string;
+  status: STATUS;
 
-  front_bumper: boolean;
-  left_front_fender: boolean;
-  right_front_fender: boolean;
-  left_front_door: boolean;
-  right_front_door: boolean;
-  left_rear_door: boolean;
-  right_rear_door: boolean;
-  left_rear_fender: boolean;
-  right_rear_fender: boolean;
-  rear_bumper: boolean;
-  rear_door: boolean;
-  bonnet: boolean;
-  hood: boolean;
+  front_bumper: BPXP | null;
+  left_front_fender: BPXP | null;
+  right_front_fender: BPXP | null;
+  left_front_door: BPXP | null;
+  right_front_door: BPXP | null;
+  left_rear_door: BPXP | null;
+  right_rear_door: BPXP | null;
+  left_rear_fender: BPXP | null;
+  right_rear_fender: BPXP | null;
+  rear_bumper: BPXP | null;
+  rear_door: BPXP | null;
+  bonnet: BPXP | null;
+  hood: BPXP | null;
 
   number_of_repairs: number | null;
 };
+
+export enum BPXP {
+  BP = "BP",
+  XP = "XP",
+}
+
+export enum STATUS {
+  WAIT = "대기",
+  WORKING = "작업중",
+  COMPLETE = "완료",
+}

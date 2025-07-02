@@ -19,6 +19,9 @@
     --foreground: #ededed;
   }
 }
+html {
+  scrollbar-gutter: stable;
+}
 
 body {
   background: var(--background);
@@ -44,4 +47,16 @@ th {
 input,
 textarea {
   border-radius: 0.25rem;
+}
+
+.working_status {
+  @apply bg-lime-500 text-white px-2 py-1;
+}
+
+.wait_status {
+  @apply bg-yellow-300 text-black px-2 py-1;
+}
+
+.complete_status {
+  @apply bg-blue-500 text-white px-2 py-1;
 }
