@@ -39,6 +39,11 @@ export default function SchedulerTable({
         <tbody>
           {Object.entries(groupByReleaseDate).map(([date, rows]) => (
             <Fragment key={date.toString()}>
+              <tr className="bg-white-100 font-bold text-center">
+                <td colSpan={12} className="border border-black px-4 py-2">
+                  {date}
+                </td>
+              </tr>
               {rows.map((schedule, index) => (
                 <SchedulerScheduleRow
                   key={schedule.id}
@@ -52,7 +57,7 @@ export default function SchedulerTable({
               ))}
               <tr className="bg-yellow-100 font-bold text-right">
                 <td colSpan={11} className="border border-black px-4 py-2">
-                  출고일 {date} 총 선견적
+                  {date}
                 </td>
                 <td className="border border-black px-4 py-2 text-center">
                   {rows
@@ -63,15 +68,11 @@ export default function SchedulerTable({
               </tr>
             </Fragment>
           ))}
-          <tr className="bg-yellow-200 font-bold text-right">
-            <td colSpan={11} className="border border-black px-4 py-2">
-              총 선견적
-            </td>
-            <td className="border border-black px-4 py-2 text-center">
-              {schedules
+          <tr className="bg-yellow-200 font-bold text-center">
+            <td colSpan={12} className="border border-black px-4 py-2">
+              {`${schedules
                 .reduce((sum, s) => sum + (s.estimate || 0), 0)
-                .toLocaleString()}
-              원
+                .toLocaleString()} 원`}
             </td>
           </tr>
         </tbody>

@@ -56,27 +56,56 @@ export default function ScheduleFilterFeidls({
     useState<boolean>(false);
   const methods = useForm();
 
-  const handleQuery = async (data: FilterFormData) => {
-    const query = qs.stringify(data, {
+  const getQueryFromFormData = (data: FilterFormData) => {
+    return qs.stringify(data, {
       skipNulls: true,
       allowDots: true,
       filter: (_, value) =>
         value instanceof Date ? value.toISOString().slice(0, 10) : value,
     });
+  };
 
-    console.log(query);
+  const handleSearch = async (data: FilterFormData) => {
+    const query = getQueryFromFormData(data);
     const res = await axios.get(`${getScarTechURL()}/api/schedules/?${query}`);
     setSchedules(res.data);
   };
   useEffect(() => {
-    handleQuery({}); // fetch all schedules by default
+    handleSearch({}); // fetch all schedules by default
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleDownload = async () => {
+    const data = methods.getValues();
+    const query = getQueryFromFormData(data);
+
+    const url = `${getScarTechURL()}/download_schedule/?${query}`;
+
+    try {
+      const res = await axios.get(url, {
+        responseType: "blob", // ✅ 중요!
+      });
+
+      const blob = new Blob([res.data], {type: "text/csv;charset=utf-8;"});
+      const link = document.createElement("a");
+
+      const blobUrl = window.URL.createObjectURL(blob);
+      link.href = blobUrl;
+      link.setAttribute("download", `schedules_${query}.csv`);
+
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(blobUrl); // 메모리 해제
+    } catch (error) {
+      console.error("다운로드 실패", error);
+    }
+  };
 
   return (
     <FormProvider {...methods}>
       <form
-        onSubmit={methods.handleSubmit(handleQuery)}
+        onSubmit={methods.handleSubmit(handleSearch)}
         className="space-y-6 p-6 border rounded-xl max-w-7xl mx-auto bg-white shadow-md"
       >
         {/* 출고 정보 */}
@@ -280,32 +309,37 @@ export default function ScheduleFilterFeidls({
         <div className="flex gap-4 mt-6 justify-center">
           <button
             onClick={openCreateScheduleModal}
-            className="w-24 h-10 bg-orange-500 text-white px-4 py-2 rounded shadow"
+            className="w-30 h-10 bg-orange-500 text-white px-4 py-2 rounded shadow"
           >
             스케줄 +
           </button>
-
           <button
             type="submit"
-            className="w-24 h-10 bg-blue-600 text-white py-2 px-6 rounded shadow"
+            className="w-30 h-10 bg-blue-600 text-white py-2 px-6 rounded shadow"
           >
             검색
           </button>
+          <button
+            onClick={handleDownload}
+            className="w-30 h-10 bg-green-500 text-white py-2 px-6 rounded shadow"
+          >
+            다운로드
+          </button>
+          <Link
+            href={`${getScarTechURL()}/api/download/`}
+            className="w-30 h-10 bg-yellow-300 text-white py-2 px-6 rounded shadow flex items-center justify-center"
+          >
+            TODAY
+          </Link>
           <button
             type="button"
             onClick={() => {
               methods.reset();
             }}
-            className="w-24 h-10 bg-gray-400 text-white py-2 px-6 rounded shadow"
+            className="w-30 h-10 bg-gray-400 text-white py-2 px-6 rounded shadow"
           >
             초기화
           </button>
-          <Link
-            href="/user"
-            className="w-24 h-10 bg-green-400 text-white py-2 px-6 rounded shadow"
-          >
-            TODAY
-          </Link>
         </div>
       </form>
     </FormProvider>
