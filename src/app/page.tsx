@@ -18,28 +18,33 @@ type DecodedToken = {
 export default function Home() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  let token = localStorage.getItem("token");
+
+  const tokenFromQuery = searchParams.get("token");
+  if (tokenFromQuery) {
+    token = tokenFromQuery;
+    localStorage.setItem("token", token); // Save it for later use
+  }
+  if (!tokenFromQuery) {
+    router.replace(getScarTechURL());
+  }
+
   useEffect(() => {
-    let token = localStorage.getItem("token");
-
-    const tokenFromQuery = searchParams.get("token");
-    if (tokenFromQuery) {
-      token = tokenFromQuery;
-      localStorage.setItem("token", token); // Save it for later use
-    }
-
-    if (!token) {
+    try {
+      const decoded = jwtDecode<DecodedToken>(token!);
+      const userRole = decoded.role;
+      if (userRole === "scheduler") {
+        router.replace("/scheduler");
+      } else if (userRole === "user") {
+        router.replace("/user");
+      } else {
+        router.replace(getScarTechURL());
+      }
+    } catch (err) {
+      console.error("JWT decode failed", err);
       router.replace(getScarTechURL());
     }
-
-    const decoded = jwtDecode<DecodedToken>(token!);
-    const userRole = decoded.role;
-
-    if (userRole === "scheduler") {
-      router.replace("/scheduler");
-    } else {
-      router.replace("/user");
-    }
-  }, [router]);
+  }, [router, token]);
 
   return (
     <div className="flex h-screen items-center justify-center">
