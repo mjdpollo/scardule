@@ -20,7 +20,7 @@ const creatingSchuedule: Schedule = {
   estimate: 0,
   note: "",
   status: "대기",
-  front_bumber: false,
+  front_bumper: false,
   left_front_fender: false,
   right_front_fender: false,
   left_front_door: false,
@@ -37,9 +37,8 @@ const creatingSchuedule: Schedule = {
 };
 
 export default function Home() {
-  const [selectedSchedule, setSelectedSchedule] = useState<Schedule | null>(
-    null
-  );
+  const [selectedSchedule, setSelectedSchedule] =
+    useState<Schedule>(creatingSchuedule);
   const [showModal, setShowModal] = useState(false);
 
   const openCreateScheduleModal = () => {
@@ -76,7 +75,7 @@ export default function Home() {
         visible={showModal}
         onClose={closeModal}
         onSubmit={handleSaveSchedule}
-        initialData={selectedSchedule ?? undefined}
+        schedule={selectedSchedule}
       />
     </>
   );

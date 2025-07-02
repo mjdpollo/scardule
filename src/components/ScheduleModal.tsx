@@ -10,32 +10,32 @@ interface Props {
   visible: boolean;
   onClose: () => void;
   onSubmit: (data: Schedule) => void;
-  initialData?: Schedule;
+  schedule: Schedule;
 }
 
 export default function ScheduleModal({
   visible,
   onClose,
   onSubmit,
-  initialData,
+  schedule,
 }: Props) {
   const {register, handleSubmit, setValue, watch, reset} = useForm<Schedule>({
-    defaultValues: initialData,
+    defaultValues: schedule,
   });
 
-  console.log(initialData);
-
   useEffect(() => {
-    if (initialData) {
-      reset(initialData);
+    if (schedule) {
+      reset(schedule);
     }
-  }, [initialData, reset]);
+  }, [schedule, reset]);
 
   if (!visible) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
       <div className="bg-white p-6 rounded-xl w-full max-w-5xl max-h-[90vh] overflow-y-auto">
-        <h2 className="text-xl font-semibold mb-4">스케줄 등록</h2>
+        <h2 className="text-xl font-semibold mb-4">{`스케줄 ${
+          schedule.id ? "업데이트" : "등록"
+        }`}</h2>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="grid grid-cols-4 gap-4 text-sm"
@@ -156,7 +156,7 @@ export default function ScheduleModal({
 
           <div className="col-span-4 grid grid-cols-4 gap-4">
             {[
-              "front_bumber",
+              "front_bumper",
               "left_front_fender",
               "right_front_fender",
               "left_front_door",
@@ -220,7 +220,7 @@ const labelMap: Record<keyof Schedule, string> = {
   estimate: "선견적",
   note: "비고",
   status: "상태",
-  front_bumber: "앞범퍼",
+  front_bumper: "앞범퍼",
   left_front_fender: "L앞펜더",
   right_front_fender: "R앞펜더",
   left_front_door: "L앞도어",

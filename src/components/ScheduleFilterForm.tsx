@@ -3,6 +3,7 @@
 import {FormProvider, useForm} from "react-hook-form";
 
 import {getScarTechURL} from "@/app/utility/utility";
+import BPXPField from "@/components/BPXPField";
 import {Schedule} from "@/type/schedule";
 import axios from "axios";
 import Link from "next/link";
@@ -10,7 +11,6 @@ import qs from "qs";
 import {Dispatch, SetStateAction, useEffect} from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import BooleanField from "./BooleanField";
 
 export type FilterFormData = {
   stock_date__gte?: Date;
@@ -29,7 +29,7 @@ export type FilterFormData = {
   estimate__lte?: number;
   number_of_repairs?: number;
 
-  front_bumber?: string;
+  front_bumper?: string;
   left_front_fender?: string;
   right_front_fender?: string;
   left_front_door?: string;
@@ -246,19 +246,19 @@ export default function ScheduleFilterFeidls({
 
         {/* 부위 필터 */}
         <div className="grid grid-cols-5 gap-4">
-          <BooleanField name="front_bumber" label="앞범퍼" />
-          <BooleanField name="left_front_fender" label="L앞펜더" />
-          <BooleanField name="right_front_fender" label="R앞펜더" />
-          <BooleanField name="left_front_door" label="L앞도어" />
-          <BooleanField name="right_front_door" label="R앞도어" />
-          <BooleanField name="left_rear_door" label="L뒷도어" />
-          <BooleanField name="right_rear_door" label="R뒷도어" />
-          <BooleanField name="left_rear_fender" label="L뒷펜더" />
-          <BooleanField name="right_rear_fender" label="R뒷펜더" />
-          <BooleanField name="rear_bumper" label="뒷범퍼" />
-          <BooleanField name="rear_door" label="백도어" />
-          <BooleanField name="bonnet" label="본네트" />
-          <BooleanField name="hood" label="후드" />
+          <BPXPField name="front_bumper" label="앞범퍼" />
+          <BPXPField name="left_front_fender" label="L앞펜더" />
+          <BPXPField name="right_front_fender" label="R앞펜더" />
+          <BPXPField name="left_front_door" label="L앞도어" />
+          <BPXPField name="right_front_door" label="R앞도어" />
+          <BPXPField name="left_rear_door" label="L뒷도어" />
+          <BPXPField name="right_rear_door" label="R뒷도어" />
+          <BPXPField name="left_rear_fender" label="L뒷펜더" />
+          <BPXPField name="right_rear_fender" label="R뒷펜더" />
+          <BPXPField name="rear_bumper" label="뒷범퍼" />
+          <BPXPField name="rear_door" label="백도어" />
+          <BPXPField name="bonnet" label="본네트" />
+          <BPXPField name="hood" label="후드" />
         </div>
 
         <div className="flex gap-4 mt-6 justify-center">

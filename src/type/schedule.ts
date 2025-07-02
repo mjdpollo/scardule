@@ -12,7 +12,7 @@ export type Schedule = {
   note: string | null;
   status: string;
 
-  front_bumber: boolean;
+  front_bumper: boolean;
   left_front_fender: boolean;
   right_front_fender: boolean;
   left_front_door: boolean;

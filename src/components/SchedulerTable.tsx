@@ -7,7 +7,7 @@ export default function SchedulerTable({
   openModal,
 }: {
   schedules: Schedule[];
-  setSelectedSchedule: Dispatch<SetStateAction<Schedule | null>>;
+  setSelectedSchedule: Dispatch<SetStateAction<Schedule>>;
   openModal: () => void;
 }) {
   const groupByReleaseDate = schedules.reduce((acc, schedule) => {
@@ -64,7 +64,7 @@ export default function SchedulerTable({
             </Fragment>
           ))}
           <tr className="bg-yellow-200 font-bold text-right">
-            <td colSpan={10} className="border border-black px-4 py-2">
+            <td colSpan={11} className="border border-black px-4 py-2">
               총 선견적
             </td>
             <td className="border border-black px-4 py-2 text-center">
