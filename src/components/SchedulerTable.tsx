@@ -22,6 +22,7 @@ export default function SchedulerTable({
       <table className="w-full border border-black text-sm">
         <thead>
           <tr className="bg-gray-200">
+            <th className="border border-black px-4 py-2"></th>
             <th className="border border-black px-4 py-2">차량번호</th>
             <th className="border border-black px-4 py-2">차종</th>
             <th className="border border-black px-4 py-2">내용</th>
@@ -38,7 +39,7 @@ export default function SchedulerTable({
         <tbody>
           {Object.entries(groupByReleaseDate).map(([date, rows]) => (
             <Fragment key={date.toString()}>
-              {rows.map((schedule) => (
+              {rows.map((schedule, index) => (
                 <SchedulerScheduleRow
                   key={schedule.id}
                   schedule={schedule}
@@ -46,10 +47,11 @@ export default function SchedulerTable({
                     setSelectedSchedule(schedule);
                     openModal();
                   }}
+                  index={index}
                 />
               ))}
               <tr className="bg-yellow-100 font-bold text-right">
-                <td colSpan={10} className="border border-black px-4 py-2">
+                <td colSpan={11} className="border border-black px-4 py-2">
                   출고일 {date} 총 선견적
                 </td>
                 <td className="border border-black px-4 py-2 text-center">

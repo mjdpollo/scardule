@@ -32,6 +32,7 @@ export default function UserPage() {
         <table className="table-auto w-full border-collapse border border-black text-base">
           <thead>
             <tr className="bg-gray-100 text-center">
+              <th className="border border-black text-base px-4 py-3"></th>
               <th className="border border-black text-base px-4 py-3">
                 차량번호
               </th>
@@ -57,8 +58,12 @@ export default function UserPage() {
             </tr>
           </thead>
           <tbody>
-            {schedules.map((schedule) => (
-              <UserScheduleRow key={schedule.id} schedule={schedule} />
+            {schedules.map((schedule, index) => (
+              <UserScheduleRow
+                key={schedule.id}
+                schedule={schedule}
+                index={index}
+              />
             ))}
           </tbody>
         </table>
