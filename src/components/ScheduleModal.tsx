@@ -32,11 +32,6 @@ export default function ScheduleModal({
 
   if (!visible) return null;
 
-  const stockDate = watch("stock_date");
-  const releaseDate = watch("release_date");
-  console.log("StockDate : ", stockDate);
-  console.log("ReleaseDate : ", releaseDate);
-
   return (
     <>
       <div className="fixed inset-0 flex items-center justify-center bg-black opacity-40"></div>

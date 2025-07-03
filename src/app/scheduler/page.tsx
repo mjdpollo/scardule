@@ -66,17 +66,12 @@ export default function Home() {
   const handleSaveSchedule = async (schedule: Schedule) => {
     console.log("💾 Saving schedule:", schedule);
     if (schedule.id) {
-      const updateRes = await axios.put(
+      await axios.put(
         `${getScarTechURL()}/api/schedules/${schedule.id}/`,
         schedule
       );
-      console.log("updateRes : ", updateRes);
     } else {
-      const createRes = await axios.post(
-        `${getScarTechURL()}/api/schedules/`,
-        schedule
-      );
-      console.log("createRes : ", createRes);
+      await axios.post(`${getScarTechURL()}/api/schedules/`, schedule);
     }
     await handleSearch();
     closeModal();

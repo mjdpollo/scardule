@@ -1,27 +1,56 @@
 "use client";
 // app/user/page.tsx
 import Header from "@/components/Header";
+import StatusModal from "@/components/StatusModal";
 import UserScheduleRow from "@/components/UserScheduleRow";
 import {Schedule} from "@/type/schedule";
+import axios from "axios";
+import {format} from "date-fns";
 import {useEffect, useState} from "react";
+import {FormProvider, useForm} from "react-hook-form";
 import {getScarTechURL} from "../utility/utility";
 
 export default function UserPage() {
   const [schedules, setSchedules] = useState<Schedule[]>([]);
+  const [selectedSchedule, setSelectedSchedule] = useState<Schedule | null>(
+    null
+  );
+  const [showModal, setShowModal] = useState(false);
+  const statusModalForm = useForm<Schedule>();
+
+  const openModal = () => setShowModal(true);
+  const closeModal = () => setShowModal(false);
+
+  const fetchSchedules = async () => {
+    const today = format(new Date(), "yyyy-MM-dd");
+
+    try {
+      const res = await fetch(
+        `${getScarTechURL()}/api/schedules/?release_date__gte=${today}&release_date__lte=${today}`
+      );
+      if (!res.ok) throw new Error("Failed to fetch schedules");
+      const data = await res.json();
+      setSchedules(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleUpdateStatus = async (schedule: Schedule) => {
+    console.log("💾 Saving schedule:", schedule);
+    if (schedule.id) {
+      await axios.put(
+        `${getScarTechURL()}/api/schedules/${schedule.id}/`,
+        schedule
+      );
+    } else {
+      alert("Schedule이 선택되지 않았습니다.");
+    }
+    await fetchSchedules();
+    closeModal();
+  };
 
   useEffect(() => {
-    async function fetchSchedules() {
-      try {
-        const res = await fetch(
-          `${getScarTechURL()}/api/schedules/?status=\uB300\uAE30`
-        );
-        if (!res.ok) throw new Error("Failed to fetch schedules");
-        const data = await res.json();
-        setSchedules(data);
-      } catch (err) {
-        console.error(err);
-      }
-    }
     fetchSchedules();
   }, []);
 
@@ -57,6 +86,7 @@ export default function UserPage() {
               <th className="border border-black text-base px-4 py-3">
                 색상코드
               </th>
+              <th className="border border-black text-base px-4 py-3">상태</th>
             </tr>
           </thead>
           <tbody>
@@ -64,12 +94,24 @@ export default function UserPage() {
               <UserScheduleRow
                 key={schedule.id}
                 schedule={schedule}
+                onClick={(schedule) => {
+                  setSelectedSchedule(schedule);
+                  openModal();
+                }}
                 index={index}
               />
             ))}
           </tbody>
         </table>
       </div>
+      <FormProvider {...statusModalForm}>
+        <StatusModal
+          visible={showModal}
+          onClose={closeModal}
+          onSubmit={handleUpdateStatus}
+          schedule={selectedSchedule}
+        />
+      </FormProvider>
     </div>
   );
 }

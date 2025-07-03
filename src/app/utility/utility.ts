@@ -1,4 +1,5 @@
 import {FilterFormData} from "@/components/ScheduleFilterForm";
+import {STATUS} from "@/type/schedule";
 import qs from "qs";
 
 export function getScarTechURL(): string {
@@ -14,3 +15,18 @@ export const getQueryFromFormData = (data: FilterFormData) => {
       value instanceof Date ? value.toISOString().slice(0, 10) : value,
   });
 };
+
+export function getStatusClassName(status: STATUS) {
+  switch (status) {
+    case STATUS.EMERGENCY:
+      return "emergency_status";
+    case STATUS.WAIT:
+      return "wait_status";
+    case STATUS.COMPLETE:
+      return "complete_status";
+    case STATUS.WORKING:
+      return "working_status";
+    default:
+      return "";
+  }
+}

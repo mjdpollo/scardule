@@ -1,5 +1,6 @@
 // components/SchedulerScheduleRow.tsx
-import {Schedule, STATUS} from "@/type/schedule";
+import {getStatusClassName} from "@/app/utility/utility";
+import {Schedule} from "@/type/schedule";
 
 interface Props {
   schedule: Schedule;
@@ -68,19 +69,4 @@ export default function SchedulerScheduleRow({
 function formatMD(dateStr: string) {
   const date = new Date(dateStr);
   return `${date.getMonth() + 1}/${date.getDate()}`;
-}
-
-function getStatusClassName(status: STATUS) {
-  switch (status) {
-    case STATUS.EMERGENCY:
-      return "emergency_status";
-    case STATUS.WAIT:
-      return "wait_status";
-    case STATUS.COMPLETE:
-      return "complete_status";
-    case STATUS.WORKING:
-      return "working_status";
-    default:
-      return "";
-  }
 }

@@ -1,14 +1,23 @@
 // components/UserScheduleRow.tsx
+import {getStatusClassName} from "@/app/utility/utility";
 import {Schedule} from "@/type/schedule";
 
 interface Props {
   schedule: Schedule;
+  onClick: (schedule: Schedule) => void;
   index: number;
 }
 
-export default function UserScheduleRow({schedule, index}: Props) {
+export default function UserScheduleRow({schedule, onClick, index}: Props) {
   return (
-    <tr className="border-b text-center text-sm hover:bg-gray-50">
+    <tr
+      className="border-b text-center text-sm hover:bg-gray-50"
+      onClick={(e) => {
+        e.preventDefault();
+        console.log(schedule);
+        onClick?.(schedule);
+      }}
+    >
       <td className="border border-black text-base px-4 py-3">{index + 1}</td>
       <td className="border border-black text-base px-4 py-3">
         {schedule.car_number}
@@ -39,6 +48,13 @@ export default function UserScheduleRow({schedule, index}: Props) {
       </td>
       <td className="border border-black text-base px-4 py-3">
         {schedule.color_code}
+      </td>
+      <td
+        className={`border border-black text-base px-4 py-3 ${getStatusClassName(
+          schedule.status
+        )}`}
+      >
+        {schedule.status}
       </td>
     </tr>
   );

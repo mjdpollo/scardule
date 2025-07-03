@@ -30,6 +30,10 @@ export type Schedule = {
   number_of_repairs: number | null;
 };
 
+export type StatusPatchData = {
+  status: STATUS;
+};
+
 export enum BPXP {
   BP = "BP",
   XP = "XP",

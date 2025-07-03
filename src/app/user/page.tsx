@@ -64,6 +64,7 @@ export default function UserPage() {
               <UserScheduleRow
                 key={schedule.id}
                 schedule={schedule}
+                onClick={() => {}}
                 index={index}
               />
             ))}
