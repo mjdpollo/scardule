@@ -49,7 +49,7 @@ export default function SchedulerTable({
                 <SchedulerScheduleRow
                   key={schedule.id}
                   schedule={schedule}
-                  onRightClick={(schedule) => {
+                  onClick={(schedule) => {
                     setSelectedSchedule(schedule);
                     openModal();
                   }}

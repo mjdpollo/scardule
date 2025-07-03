@@ -4,21 +4,21 @@ import {Schedule} from "@/type/schedule";
 
 interface Props {
   schedule: Schedule;
-  onRightClick: (schedule: Schedule) => void;
+  onClick: (schedule: Schedule) => void;
   index: number;
 }
 
 export default function SchedulerScheduleRow({
   schedule,
-  onRightClick,
+  onClick,
   index,
 }: Props) {
   return (
     <tr
       className="border-b text-center text-sm hover:bg-gray-50"
-      onContextMenu={(e) => {
+      onClick={(e) => {
         e.preventDefault();
-        onRightClick?.(schedule);
+        onClick?.(schedule);
       }}
     >
       <td className="border border-black text-base px-4 py-3">{index + 1}</td>
