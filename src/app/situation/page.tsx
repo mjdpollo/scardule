@@ -1,8 +1,12 @@
 "use client";
 // app/user/page.tsx
-import StatusModal from "@/components/StatusModal";
 import UserScheduleRow from "@/components/UserScheduleRow";
-import {Schedule} from "@/type/schedule";
+import WorkerModal from "@/components/WorkerModal";
+import {
+  getToggledStatus,
+  ReleaseStatusPatchData,
+  Schedule,
+} from "@/type/schedule";
 import {Auth, getScarTechURL} from "@/utility/utility";
 import axios from "axios";
 import {format} from "date-fns";
@@ -18,7 +22,7 @@ export default function UserPage() {
     null
   );
   const [showModal, setShowModal] = useState(false);
-  const statusModalForm = useForm<Schedule>();
+  const workerModalForm = useForm<Schedule>();
 
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
@@ -38,18 +42,94 @@ export default function UserPage() {
     }
   };
 
-  const handleUpdateStatus = async (schedule: Schedule) => {
-    console.log("💾 Saving schedule:", schedule);
+  const handleUpdateWorker = async (schedule: Schedule) => {
     if (schedule.id) {
-      await axios.put(
+      const data: Schedule = {...schedule, worker: schedule.worker};
+      const res = await axios.put(
         `${getScarTechURL()}/api/schedules/${schedule.id}/`,
-        schedule
+        data
       );
+      if (res.status !== 200) {
+        alert("에러가 발생했습니다.");
+      }
     } else {
       alert("Schedule이 선택되지 않았습니다.");
     }
     await fetchSchedules();
     closeModal();
+  };
+
+  const handleUpdatePlateStatus = async (schedule: Schedule) => {
+    if (schedule.id) {
+      const data: Schedule = {
+        ...schedule,
+        plate_status: getToggledStatus(schedule.plate_status),
+      };
+      const res = await axios.put(
+        `${getScarTechURL()}/api/schedules/${schedule.id}/`,
+        data
+      );
+      if (res.status !== 200) {
+        alert("에러가 발생했습니다.");
+      }
+    } else {
+      alert("Schedule이 선택되지 않았습니다.");
+    }
+    await fetchSchedules();
+  };
+  const handleUpdatePaintStatus = async (schedule: Schedule) => {
+    if (schedule.id) {
+      const data: Schedule = {
+        ...schedule,
+        paint_status: getToggledStatus(schedule.paint_status),
+      };
+      const res = await axios.put(
+        `${getScarTechURL()}/api/schedules/${schedule.id}/`,
+        data
+      );
+      if (res.status !== 200) {
+        alert("에러가 발생했습니다.");
+      }
+    } else {
+      alert("Schedule이 선택되지 않았습니다.");
+    }
+    await fetchSchedules();
+  };
+  const handleUpdateCommonStatus = async (schedule: Schedule) => {
+    if (schedule.id) {
+      const data: Schedule = {
+        ...schedule,
+        common_status: getToggledStatus(schedule.common_status),
+      };
+      const res = await axios.put(
+        `${getScarTechURL()}/api/schedules/${schedule.id}/`,
+        data
+      );
+      if (res.status !== 200) {
+        alert("에러가 발생했습니다.");
+      }
+    } else {
+      alert("Schedule이 선택되지 않았습니다.");
+    }
+    await fetchSchedules();
+  };
+  const handleUpdateReleaseStatus = async (schedule: Schedule) => {
+    if (schedule.id) {
+      const data: ReleaseStatusPatchData = {
+        ...schedule,
+        release_status: getToggledStatus(schedule.release_status),
+      };
+      const res = await axios.put(
+        `${getScarTechURL()}/api/schedules/${schedule.id}/`,
+        data
+      );
+      if (res.status !== 200) {
+        alert("에러가 발생했습니다.");
+      }
+    } else {
+      alert("Schedule이 선택되지 않았습니다.");
+    }
+    await fetchSchedules();
   };
 
   useEffect(() => {
@@ -89,7 +169,13 @@ export default function UserPage() {
               <th className="border border-black text-base px-2- py-1">
                 색상코드
               </th>
-              <th className="border border-black text-base px-2- py-1">상태</th>
+              <th className="border border-black text-base px-2- py-1">
+                작업자
+              </th>
+              <th className="border border-black text-base px-2- py-1">판금</th>
+              <th className="border border-black text-base px-2- py-1">도장</th>
+              <th className="border border-black text-base px-2- py-1">일반</th>
+              <th className="border border-black text-base px-2- py-1">출고</th>
             </tr>
           </thead>
           <tbody>
@@ -97,21 +183,25 @@ export default function UserPage() {
               <UserScheduleRow
                 key={schedule.id}
                 schedule={schedule}
-                onClick={(schedule) => {
+                openWorkerModal={(schedule) => {
                   setSelectedSchedule(schedule);
                   openModal();
                 }}
+                handleUpdatePlateStatus={handleUpdatePlateStatus}
+                handleUpdatePaintStatus={handleUpdatePaintStatus}
+                handleUpdateCommonStatus={handleUpdateCommonStatus}
+                handleUpdateReleaseStatus={handleUpdateReleaseStatus}
                 index={index}
               />
             ))}
           </tbody>
         </table>
       </div>
-      <FormProvider {...statusModalForm}>
-        <StatusModal
+      <FormProvider {...workerModalForm}>
+        <WorkerModal
           visible={showModal}
           handleClose={closeModal}
-          onSubmit={handleUpdateStatus}
+          onSubmit={handleUpdateWorker}
           schedule={selectedSchedule}
         />
       </FormProvider>

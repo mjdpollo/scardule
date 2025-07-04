@@ -3,20 +3,25 @@ import {getStatusClassName} from "@/utility/utility";
 
 interface Props {
   schedule: Schedule;
-  onClick: (schedule: Schedule) => void;
+  openWorkerModal: (schedule: Schedule) => void;
+  handleUpdatePlateStatus: (schedule: Schedule) => void;
+  handleUpdatePaintStatus: (schedule: Schedule) => void;
+  handleUpdateCommonStatus: (schedule: Schedule) => void;
+  handleUpdateReleaseStatus: (schedule: Schedule) => void;
   index: number;
 }
 
-export default function UserScheduleRow({schedule, onClick, index}: Props) {
+export default function UserScheduleRow({
+  schedule,
+  openWorkerModal,
+  handleUpdatePlateStatus,
+  handleUpdatePaintStatus,
+  handleUpdateCommonStatus,
+  handleUpdateReleaseStatus,
+  index,
+}: Props) {
   return (
-    <tr
-      className="border-b text-center text-sm hover:bg-gray-50"
-      onClick={(e) => {
-        e.preventDefault();
-        console.log(schedule);
-        onClick?.(schedule);
-      }}
-    >
+    <tr className="border-b text-center text-sm hover:bg-gray-50">
       <td className="border border-black text-base px-2 py-1">{index + 1}</td>
       <td className="border border-black text-base px-2 py-1">
         {schedule.car_number}
@@ -49,11 +54,52 @@ export default function UserScheduleRow({schedule, onClick, index}: Props) {
         {schedule.color_code}
       </td>
       <td
-        className={`border border-black text-base px-2 py-1 ${getStatusClassName(
-          schedule.status
-        )}`}
+        className="border border-black text-base px-2 py-1 cursor-pointer bg-amber-100"
+        onClick={() => {
+          openWorkerModal(schedule);
+        }}
       >
-        {schedule.status}
+        {schedule.worker}
+      </td>
+      <td
+        className={`border border-black text-base px-2 py-1 ${getStatusClassName(
+          schedule.plate_status
+        )} cursor-pointer`}
+        onClick={() => {
+          handleUpdatePlateStatus(schedule);
+        }}
+      >
+        {schedule.plate_status}
+      </td>
+      <td
+        className={`border border-black text-base px-2 py-1 ${getStatusClassName(
+          schedule.paint_status
+        )} cursor-pointer`}
+        onClick={() => {
+          handleUpdatePaintStatus(schedule);
+        }}
+      >
+        {schedule.paint_status}
+      </td>
+      <td
+        className={`border border-black text-base px-2 py-1 ${getStatusClassName(
+          schedule.common_status
+        )} cursor-pointer`}
+        onClick={() => {
+          handleUpdateCommonStatus(schedule);
+        }}
+      >
+        {schedule.common_status}
+      </td>
+      <td
+        className={`border border-black text-base px-2 py-1 ${getStatusClassName(
+          schedule.release_status
+        )} cursor-pointer`}
+        onClick={() => {
+          handleUpdateReleaseStatus(schedule);
+        }}
+      >
+        {schedule.release_status}
       </td>
     </tr>
   );

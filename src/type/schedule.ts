@@ -11,7 +11,6 @@ export type Schedule = {
   working_content: string | null;
   estimate: number;
   note: string | null;
-  status: STATUS;
 
   front_bumper: BPXP | null;
   left_front_fender: BPXP | null;
@@ -28,10 +27,32 @@ export type Schedule = {
   hood: BPXP | null;
 
   number_of_repairs: number | null;
+
+  worker: string;
+  plate_status: STATUS;
+  paint_status: STATUS;
+  common_status: STATUS;
+  release_status: STATUS;
 };
 
-export type StatusPatchData = {
-  status: STATUS;
+export type WorkerPatchData = {
+  worker: string;
+};
+
+export type PlateStatusPatchData = {
+  plate_status: STATUS;
+};
+
+export type PaintStatusPatchData = {
+  paint_status: STATUS;
+};
+
+export type CommonStatusPatchData = {
+  common_status: STATUS;
+};
+
+export type ReleaseStatusPatchData = {
+  release_status: STATUS;
 };
 
 export enum BPXP {
@@ -42,6 +63,15 @@ export enum BPXP {
 export enum STATUS {
   EMERGENCY = "응급",
   WAIT = "대기",
-  WORKING = "작업중",
   COMPLETE = "완료",
+}
+
+export function getToggledStatus(status: STATUS): STATUS {
+  if (status === STATUS.COMPLETE) {
+    return STATUS.WAIT;
+  } else if (status === STATUS.WAIT) {
+    return STATUS.COMPLETE;
+  } else {
+    return status;
+  }
 }

@@ -55,12 +55,36 @@ export default function SchedulerScheduleRow({
       <td className="border border-black text-base px-2 py-1">
         {schedule.estimate.toLocaleString()}원
       </td>
+      <td className="border border-black text-base px-2 py-1">
+        {schedule.worker}
+      </td>
       <td
         className={`border border-black text-base px-2 py-1 ${getStatusClassName(
-          schedule.status
+          schedule.plate_status
         )}`}
       >
-        {schedule.status}
+        {schedule.plate_status}
+      </td>
+      <td
+        className={`border border-black text-base px-2 py-1 ${getStatusClassName(
+          schedule.paint_status
+        )}`}
+      >
+        {schedule.paint_status}
+      </td>
+      <td
+        className={`border border-black text-base px-2 py-1 ${getStatusClassName(
+          schedule.common_status
+        )}`}
+      >
+        {schedule.common_status}
+      </td>
+      <td
+        className={`border border-black text-base px-2 py-1 ${getStatusClassName(
+          schedule.release_status
+        )}`}
+      >
+        {schedule.release_status}
       </td>
     </tr>
   );

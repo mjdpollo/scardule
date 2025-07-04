@@ -8,7 +8,12 @@ import {useState} from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {useFormContext} from "react-hook-form";
-import {StatusSelectField} from "./StatusSelectField";
+import {
+  CommonStatusSelectField,
+  PaintStatusSelectField,
+  PlateStatusSelectField,
+  ReleaseStatusSelectField,
+} from "./StatusSelectField";
 
 export type FilterFormData = {
   stock_date__gte?: Date;
@@ -113,8 +118,8 @@ export default function ScheduleFilterFeidls({
             />
           </div>
           <div className="col-span-1">
-            <label className="block mb-1">상태</label>
-            <StatusSelectField />
+            <label className="block mb-1">출고상태</label>
+            <ReleaseStatusSelectField />
           </div>
         </div>
       </div>
@@ -256,6 +261,18 @@ export default function ScheduleFilterFeidls({
                 className="border px-2 py-1 w-full"
               />
             </div>
+            <div className="col-span-1">
+              <label className="block mb-1">출고상태</label>
+              <PlateStatusSelectField />
+            </div>
+            <div className="col-span-1">
+              <label className="block mb-1">출고상태</label>
+              <PaintStatusSelectField />
+            </div>
+            <div className="col-span-1">
+              <label className="block mb-1">출고상태</label>
+              <CommonStatusSelectField />
+            </div>
           </div>
           <div className="mt-4">
             <label className="block mb-1">비고</label>
@@ -296,7 +313,7 @@ export default function ScheduleFilterFeidls({
         </button>
         <button
           onClick={handleDownload}
-          className="w-30 h-10 bg-green-500 text-white py-2 px-6 rounded shadow cursor-pointer"
+          className="w-30 h-10 bg-emerald-600 text-white py-2 px-6 rounded shadow cursor-pointer"
         >
           다운로드
         </button>

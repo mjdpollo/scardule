@@ -8,7 +8,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import {useFormContext} from "react-hook-form";
 import BPXPField from "./BPXPField";
 import NumberField from "./NumberInput";
-import {StatusSelectField} from "./StatusSelectField";
+import {
+  CommonStatusSelectField,
+  PaintStatusSelectField,
+  PlateStatusSelectField,
+  ReleaseStatusSelectField,
+} from "./StatusSelectField";
 
 interface Props {
   visible: boolean;
@@ -134,11 +139,11 @@ export default function ScheduleModal({
               />
             </div>
             <div>
-              <label className="block mb-1">담당자</label>
+              <label className="block mb-1">차/대</label>
               <input
                 {...register("charger")}
                 className="border px-2 py-1 w-full"
-                placeholder="EX: 홍길동"
+                placeholder="EX: 삼성자차"
               />
             </div>
             <div>
@@ -150,8 +155,28 @@ export default function ScheduleModal({
               />
             </div>
             <div>
-              <label className="block mb-1">상태</label>
-              <StatusSelectField />
+              <label className="block mb-1">작업자</label>
+              <input
+                {...register("worker")}
+                className="border px-2 py-1 w-full"
+                placeholder="김아무개"
+              />
+            </div>
+            <div>
+              <label className="block mb-1">판금상태</label>
+              <PlateStatusSelectField />
+            </div>
+            <div>
+              <label className="block mb-1">도장상태</label>
+              <PaintStatusSelectField />
+            </div>
+            <div>
+              <label className="block mb-1">일반상태</label>
+              <CommonStatusSelectField />
+            </div>
+            <div>
+              <label className="block mb-1">출고상태</label>
+              <ReleaseStatusSelectField />
             </div>
 
             <div className="col-span-4 font-semibold border-b pt-2 pb-1">

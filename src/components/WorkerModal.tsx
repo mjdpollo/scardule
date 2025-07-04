@@ -1,7 +1,6 @@
 import {useEffect} from "react";
 import {useFormContext} from "react-hook-form";
 import {Schedule} from "../type/schedule";
-import {StatusSelectField} from "./StatusSelectField";
 
 interface Props {
   visible: boolean;
@@ -10,13 +9,13 @@ interface Props {
   schedule: Schedule | null;
 }
 
-export default function StatusModal({
+export default function WorkerModal({
   visible,
   handleClose,
   onSubmit,
   schedule,
 }: Props) {
-  const {handleSubmit, reset} = useFormContext<Schedule>();
+  const {handleSubmit, reset, register} = useFormContext<Schedule>();
 
   useEffect(() => {
     if (schedule) {
@@ -31,13 +30,17 @@ export default function StatusModal({
       <div className="fixed inset-0 flex items-center justify-center bg-black opacity-40"></div>
       <div className="fixed inset-0 z-50 flex items-center justify-center ">
         <div className="bg-white p-6 rounded-xl w-full max-w-2xs overflow-visible border-orange-500 border-4 text-center ">
-          <h2 className="text-xl font-semibold mb-4">{`[${schedule.car_number}] 상태 변경`}</h2>
+          <h2 className="text-xl font-semibold mb-4">{`[${schedule.car_number}] 작업자 변경`}</h2>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="grid grid-cols-1 text-sm"
           >
             <div className="relative ">
-              <StatusSelectField />
+              <input
+                {...register("worker")}
+                className="border px-2 py-1 w-full"
+                placeholder="김아무개"
+              />
             </div>
             <div className="col-span-2 mt-4 flex justify-center gap-4">
               <button

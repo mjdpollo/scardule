@@ -22,7 +22,6 @@ const creatingSchuedule: Schedule = {
   working_content: null,
   estimate: 0,
   note: "",
-  status: STATUS.WAIT,
   front_bumper: null,
   left_front_fender: null,
   right_front_fender: null,
@@ -37,6 +36,11 @@ const creatingSchuedule: Schedule = {
   bonnet: null,
   hood: null,
   number_of_repairs: 0,
+  worker: "",
+  plate_status: STATUS.WAIT,
+  paint_status: STATUS.WAIT,
+  common_status: STATUS.WAIT,
+  release_status: STATUS.WAIT,
 };
 
 export default function Header() {

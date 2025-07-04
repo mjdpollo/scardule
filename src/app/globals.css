@@ -68,16 +68,12 @@ textarea {
   @apply bg-red-500 text-white px-2 py-1;
 }
 
-.working_status {
+.complete_status {
   @apply bg-lime-500 text-white px-2 py-1;
 }
 
 .wait_status {
   @apply bg-yellow-300 text-black px-2 py-1;
-}
-
-.complete_status {
-  @apply bg-blue-500 text-white px-2 py-1;
 }
 
 @media screen and (max-width: 1440px) {
