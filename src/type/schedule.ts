@@ -75,3 +75,15 @@ export function getToggledStatus(status: STATUS): STATUS {
     return status;
   }
 }
+export function getStatusClassName(status: STATUS) {
+  switch (status) {
+    case STATUS.EMERGENCY:
+      return "emergency_status";
+    case STATUS.WAIT:
+      return "wait_status";
+    case STATUS.COMPLETE:
+      return "complete_status";
+    default:
+      return "";
+  }
+}

@@ -1,5 +1,4 @@
-import {Schedule} from "@/type/schedule";
-import {getStatusClassName} from "@/utility/utility";
+import {Schedule, getStatusClassName} from "@/type/schedule";
 
 interface Props {
   schedule: Schedule;

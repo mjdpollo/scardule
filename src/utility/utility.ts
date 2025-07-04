@@ -1,6 +1,5 @@
 "use client";
 import {FilterFormData} from "@/components/ScheduleFilterForm";
-import {STATUS} from "@/type/schedule";
 import {jwtDecode} from "jwt-decode";
 import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
 import qs from "qs";
@@ -17,21 +16,6 @@ export function getQueryFromFormData(data: FilterFormData) {
     filter: (_, value) =>
       value instanceof Date ? value.toISOString().slice(0, 10) : value,
   });
-}
-
-export function getStatusClassName(status: STATUS) {
-  switch (status) {
-    case STATUS.EMERGENCY:
-      return "emergency_status";
-    case STATUS.WAIT:
-      return "wait_status";
-    case STATUS.COMPLETE:
-      return "complete_status";
-    case STATUS.WORKING:
-      return "working_status";
-    default:
-      return "";
-  }
 }
 
 type DecodedToken = {
