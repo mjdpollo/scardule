@@ -110,7 +110,7 @@ export default function UserPage() {
       <FormProvider {...statusModalForm}>
         <StatusModal
           visible={showModal}
-          onClose={closeModal}
+          handleClose={closeModal}
           onSubmit={handleUpdateStatus}
           schedule={selectedSchedule}
         />

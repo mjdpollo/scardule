@@ -5,14 +5,14 @@ import {StatusSelectField} from "./StatusSelectField";
 
 interface Props {
   visible: boolean;
-  onClose: () => void;
+  handleClose: () => void;
   onSubmit: (data: Schedule) => void;
   schedule: Schedule | null;
 }
 
 export default function StatusModal({
   visible,
-  onClose,
+  handleClose,
   onSubmit,
   schedule,
 }: Props) {
@@ -42,14 +42,14 @@ export default function StatusModal({
             <div className="col-span-2 mt-4 flex justify-center gap-4">
               <button
                 type="button"
-                onClick={onClose}
-                className="w-20 h-10 bg-gray-400 text-white py-2 px-6 rounded shadow"
+                onClick={handleClose}
+                className="w-20 h-10 bg-gray-400 text-white py-2 px-6 rounded shadow cursor-pointer"
               >
                 닫기
               </button>
               <button
                 type="submit"
-                className="w-20 h-10 bg-gray-900 text-white py-2 px-6 rounded shadow"
+                className="w-20 h-10 bg-gray-900 text-white py-2 px-6 rounded shadow cursor-pointer"
               >
                 저장
               </button>

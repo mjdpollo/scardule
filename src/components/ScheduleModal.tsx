@@ -195,7 +195,7 @@ export default function ScheduleModal({
               <button
                 type="button"
                 onClick={handleClose}
-                className="w-30 h-10 bg-gray-400 text-white py-2 px-6 rounded shadow"
+                className="w-30 h-10 bg-gray-400 text-white py-2 px-6 rounded shadow cursor-pointer"
               >
                 닫기
               </button>
@@ -205,14 +205,14 @@ export default function ScheduleModal({
                   onClick={() => {
                     handleDelete(schedule);
                   }}
-                  className="w-30 h-10 bg-red-600 text-white py-2 px-6 rounded shadow"
+                  className="w-30 h-10 bg-red-600 text-white py-2 px-6 rounded shadow cursor-pointer"
                 >
                   삭제
                 </button>
               )}
               <button
                 type="submit"
-                className="w-30 h-10 bg-gray-900 text-white py-2 px-6 rounded shadow"
+                className="w-30 h-10 bg-gray-900 text-white py-2 px-6 rounded shadow cursor-pointer"
               >
                 저장
               </button>
