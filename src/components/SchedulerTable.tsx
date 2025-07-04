@@ -7,7 +7,7 @@ export default function SchedulerTable({
   openModal,
 }: {
   schedules: Schedule[];
-  setSelectedSchedule: Dispatch<SetStateAction<Schedule>>;
+  setSelectedSchedule: Dispatch<SetStateAction<Schedule | undefined>>;
   openModal: () => void;
 }) {
   const groupByReleaseDate = schedules.reduce((acc, schedule) => {
@@ -22,19 +22,19 @@ export default function SchedulerTable({
       <table className="w-full border border-black text-sm">
         <thead>
           <tr className="bg-gray-200">
-            <th className="border border-black px-4 py-2"></th>
-            <th className="border border-black px-4 py-2">차량번호</th>
-            <th className="border border-black px-4 py-2">차종</th>
-            <th className="border border-black px-4 py-2">작업내용</th>
-            <th className="border border-black px-4 py-2">수리횟수</th>
-            <th className="border border-black px-4 py-2">입고일</th>
-            <th className="border border-black px-4 py-2">출고일</th>
-            <th className="border border-black px-4 py-2">담당자</th>
-            <th className="border border-black px-4 py-2">입고처</th>
-            <th className="border border-black px-4 py-2">비고</th>
-            <th className="border border-black px-4 py-2">색상코드</th>
-            <th className="border border-black px-4 py-2">선견적</th>
-            <th className="border border-black px-4 py-2">상태</th>
+            <th className="border border-black px-2 py-1"></th>
+            <th className="border border-black px-2 py-1">차량번호</th>
+            <th className="border border-black px-2 py-1">차종</th>
+            <th className="border border-black px-2 py-1">작업내용</th>
+            <th className="border border-black px-2 py-1">판수</th>
+            <th className="border border-black px-2 py-1">입고일</th>
+            <th className="border border-black px-2 py-1">출고일</th>
+            <th className="border border-black px-2 py-1">담당자</th>
+            <th className="border border-black px-2 py-1">입고처</th>
+            <th className="border border-black px-2 py-1">비고</th>
+            <th className="border border-black px-2 py-1">색상코드</th>
+            <th className="border border-black px-2 py-1">선견적</th>
+            <th className="border border-black px-2 py-1">상태</th>
           </tr>
         </thead>
         <tbody>

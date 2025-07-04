@@ -1,6 +1,5 @@
-// components/UserScheduleRow.tsx
-import {getStatusClassName} from "@/app/utility/utility";
 import {Schedule} from "@/type/schedule";
+import {getStatusClassName} from "@/utility/utility";
 
 interface Props {
   schedule: Schedule;
@@ -18,39 +17,39 @@ export default function UserScheduleRow({schedule, onClick, index}: Props) {
         onClick?.(schedule);
       }}
     >
-      <td className="border border-black text-base px-4 py-3">{index + 1}</td>
-      <td className="border border-black text-base px-4 py-3">
+      <td className="border border-black text-base px-2 py-1">{index + 1}</td>
+      <td className="border border-black text-base px-2 py-1">
         {schedule.car_number}
       </td>
-      <td className="border border-black text-base px-4 py-3">
+      <td className="border border-black text-base px-2 py-1">
         {schedule.car_model}
       </td>
-      <td className="border border-black text-base px-4 py-3">
+      <td className="border border-black text-base px-2 py-1">
         {schedule.working_content ?? "-"}
       </td>
-      <td className="border border-black text-base px-4 py-3">
+      <td className="border border-black text-base px-2 py-1">
         {schedule.number_of_repairs}
       </td>
-      <td className="border border-black text-base px-4 py-3">
+      <td className="border border-black text-base px-2 py-1">
         {schedule.stock_date ? formatMD(schedule.stock_date) : "-"}
       </td>
-      <td className="border border-black text-base px-4 py-3">
+      <td className="border border-black text-base px-2 py-1">
         {schedule.release_date ? formatMD(schedule.release_date) : "-"}
       </td>
-      <td className="border border-black text-base px-4 py-3">
+      <td className="border border-black text-base px-2 py-1">
         {schedule.charger}
       </td>
-      <td className="border border-black text-base px-4 py-3">
+      <td className="border border-black text-base px-2 py-1">
         {schedule.supplier}
       </td>
-      <td className="border border-black text-base px-4 py-3">
+      <td className="border border-black text-base px-2 py-1">
         {schedule.note ?? "-"}
       </td>
-      <td className="border border-black text-base px-4 py-3">
+      <td className="border border-black text-base px-2 py-1">
         {schedule.color_code}
       </td>
       <td
-        className={`border border-black text-base px-4 py-3 ${getStatusClassName(
+        className={`border border-black text-base px-2 py-1 ${getStatusClassName(
           schedule.status
         )}`}
       >

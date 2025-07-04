@@ -1,16 +1,18 @@
 "use client";
 // app/user/page.tsx
-import Header from "@/components/Header";
 import StatusModal from "@/components/StatusModal";
 import UserScheduleRow from "@/components/UserScheduleRow";
 import {Schedule} from "@/type/schedule";
+import {Auth, getScarTechURL} from "@/utility/utility";
 import axios from "axios";
 import {format} from "date-fns";
+import {useRouter} from "next/navigation";
 import {useEffect, useState} from "react";
 import {FormProvider, useForm} from "react-hook-form";
-import {getScarTechURL} from "../utility/utility";
 
 export default function UserPage() {
+  const router = useRouter();
+
   const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [selectedSchedule, setSelectedSchedule] = useState<Schedule | null>(
     null
@@ -51,42 +53,43 @@ export default function UserPage() {
   };
 
   useEffect(() => {
+    Auth.validate(router);
     fetchSchedules();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div className="flex flex-col min-h-screen items-center justify-start px-4 py-8">
-      <Header />
       <div className="overflow-x-auto w-full max-w-7xl">
         <table className="table-auto w-full border-collapse border border-black text-base">
           <thead>
             <tr className="bg-gray-100 text-center">
-              <th className="border border-black text-base px-4 py-3"></th>
-              <th className="border border-black text-base px-4 py-3">
+              <th className="border border-black text-base px-2- py-1"></th>
+              <th className="border border-black text-base px-2- py-1">
                 차량번호
               </th>
-              <th className="border border-black text-base px-4 py-3">차종</th>
-              <th className="border border-black text-base px-4 py-3">
+              <th className="border border-black text-base px-2- py-1">차종</th>
+              <th className="border border-black text-base px-2- py-1">
                 작업내용
               </th>
-              <th className="border border-black text-base px-4 py-3">판수</th>
-              <th className="border border-black text-base px-4 py-3">
+              <th className="border border-black text-base px-2- py-1">판수</th>
+              <th className="border border-black text-base px-2- py-1">
                 입고일
               </th>
-              <th className="border border-black text-base px-4 py-3">
+              <th className="border border-black text-base px-2- py-1">
                 출고일
               </th>
-              <th className="border border-black text-base px-4 py-3">
+              <th className="border border-black text-base px-2- py-1">
                 담당자
               </th>
-              <th className="border border-black text-base px-4 py-3">
+              <th className="border border-black text-base px-2- py-1">
                 입고처
               </th>
-              <th className="border border-black text-base px-4 py-3">비고</th>
-              <th className="border border-black text-base px-4 py-3">
+              <th className="border border-black text-base px-2- py-1">비고</th>
+              <th className="border border-black text-base px-2- py-1">
                 색상코드
               </th>
-              <th className="border border-black text-base px-4 py-3">상태</th>
+              <th className="border border-black text-base px-2- py-1">상태</th>
             </tr>
           </thead>
           <tbody>

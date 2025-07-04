@@ -22,7 +22,8 @@
     "react": "^19.0.0",
     "react-datepicker": "^8.4.0",
     "react-dom": "^19.0.0",
-    "react-hook-form": "^7.59.0"
+    "react-hook-form": "^7.59.0",
+    "ua-parser-js": "^2.0.4"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

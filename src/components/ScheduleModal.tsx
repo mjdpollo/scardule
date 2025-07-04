@@ -7,18 +7,21 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {useFormContext} from "react-hook-form";
 import BPXPField from "./BPXPField";
+import NumberField from "./NumberInput";
 import {StatusSelectField} from "./StatusSelectField";
 
 interface Props {
   visible: boolean;
-  onClose: () => void;
+  handleClose: () => void;
+  handleDelete: (data: Schedule | undefined) => void;
   onSubmit: (data: Schedule) => void;
-  schedule: Schedule;
+  schedule: Schedule | undefined;
 }
 
 export default function ScheduleModal({
   visible,
-  onClose,
+  handleClose,
+  handleDelete,
   onSubmit,
   schedule,
 }: Props) {
@@ -30,13 +33,18 @@ export default function ScheduleModal({
     }
   }, [schedule, reset]);
 
+  if (!schedule) return null;
   if (!visible) return null;
 
   return (
     <>
-      <div className="fixed inset-0 flex items-center justify-center bg-black opacity-40"></div>
+      <div className="fixed inset-0 z-40 flex items-center justify-center bg-black opacity-40"></div>
       <div className="fixed inset-0 z-50 flex items-center justify-center ">
-        <div className="bg-white p-6 rounded-xl w-full max-w-5xl max-h-[90vh] overflow-y-auto border-orange-500 border-4">
+        <div
+          className={`bg-white p-6 rounded-xl w-full max-w-5xl max-h-[90vh] overflow-y-auto border-4 ${
+            schedule.id ? "border-amber-200" : "border-orange-500"
+          }`}
+        >
           <h2 className="text-xl font-semibold mb-4">{`스케줄 ${
             schedule.id ? "업데이트" : "등록"
           }`}</h2>
@@ -135,9 +143,8 @@ export default function ScheduleModal({
             </div>
             <div>
               <label className="block mb-1">선견적</label>
-              <input
-                type="number"
-                {...register("estimate", {valueAsNumber: true})}
+              <NumberField
+                name="estimate"
                 className="border px-2 py-1 w-full"
                 placeholder="EX: 250000"
               />
@@ -187,11 +194,22 @@ export default function ScheduleModal({
             <div className="col-span-4 mt-4 flex justify-end gap-4">
               <button
                 type="button"
-                onClick={onClose}
+                onClick={handleClose}
                 className="w-30 h-10 bg-gray-400 text-white py-2 px-6 rounded shadow"
               >
                 닫기
               </button>
+              {schedule.id && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleDelete(schedule);
+                  }}
+                  className="w-30 h-10 bg-red-600 text-white py-2 px-6 rounded shadow"
+                >
+                  삭제
+                </button>
+              )}
               <button
                 type="submit"
                 className="w-30 h-10 bg-gray-900 text-white py-2 px-6 rounded shadow"
