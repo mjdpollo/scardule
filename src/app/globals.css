@@ -65,15 +65,15 @@ textarea {
 }
 
 .emergency_status {
-  @apply bg-red-500 text-white px-2 py-1;
+  @apply bg-red-500 text-white font-bold;
 }
 
 .complete_status {
-  @apply bg-lime-500 text-white px-2 py-1;
+  @apply bg-lime-500 text-white font-bold;
 }
 
 .wait_status {
-  @apply bg-yellow-300 text-black px-2 py-1;
+  @apply bg-yellow-300 text-black font-bold;
 }
 
 @media screen and (max-width: 1440px) {

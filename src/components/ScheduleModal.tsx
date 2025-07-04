@@ -119,7 +119,7 @@ export default function ScheduleModal({
               />
             </div>
             <div>
-              <label className="block mb-1">색상코드</label>
+              <label className="block mb-1">색상</label>
               <input
                 {...register("color_code")}
                 className="border px-2 py-1 w-full"
