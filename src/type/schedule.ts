@@ -66,6 +66,40 @@ export enum STATUS {
   COMPLETE = "완료",
 }
 
+export const creatingSchuedule: Schedule = {
+  id: null,
+  stock_date: null,
+  release_date: null,
+  car_model: "",
+  car_number: "",
+  color_code: "",
+  supplier: "",
+  charger: "",
+  content: "",
+  working_content: null,
+  estimate: 0,
+  note: "",
+  front_bumper: null,
+  left_front_fender: null,
+  right_front_fender: null,
+  left_front_door: null,
+  right_front_door: null,
+  left_rear_door: null,
+  right_rear_door: null,
+  left_rear_fender: null,
+  right_rear_fender: null,
+  rear_bumper: null,
+  rear_door: null,
+  bonnet: null,
+  hood: null,
+  number_of_repairs: 0,
+  worker: "",
+  plate_status: STATUS.WAIT,
+  paint_status: STATUS.WAIT,
+  common_status: STATUS.WAIT,
+  release_status: STATUS.WAIT,
+};
+
 export function getToggledStatus(status: STATUS): STATUS {
   if (status === STATUS.COMPLETE) {
     return STATUS.WAIT;

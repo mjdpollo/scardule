@@ -18,7 +18,7 @@ export default function SchedulerTable({
   }, {} as Record<string, Schedule[]>);
 
   return (
-    <div className="mt-12 max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto">
       <table className="table-fixed w-full border border-black text-sm">
         <thead>
           <tr className="bg-gray-200">

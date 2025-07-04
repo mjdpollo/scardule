@@ -25,7 +25,6 @@ export type FilterFormData = {
   color_code?: string;
   supplier?: string;
   charger?: string;
-  status?: string;
   note?: string;
   content?: string;
   estimate__gte?: number;
@@ -45,6 +44,16 @@ export type FilterFormData = {
   rear_door?: string;
   bonnet?: string;
   hood?: string;
+
+  worker?: string;
+  plate_status?: string;
+  paint_status?: string;
+  common_status?: string;
+  release_status?: string;
+};
+
+export const filterResetData: FilterFormData = {
+  release_date__gte: new Date(),
 };
 
 export default function ScheduleFilterFeidls({
@@ -141,7 +150,7 @@ export default function ScheduleFilterFeidls({
 
       <div
         className={`overflow-hidden transition-all duration-300 ${
-          enabledDetailSearch ? "max-h-200 opacity-100" : "max-h-0 opacity-0"
+          enabledDetailSearch ? "max-h-250 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
         <div>
@@ -305,7 +314,7 @@ export default function ScheduleFilterFeidls({
         <button
           type="button"
           onClick={() => {
-            reset();
+            reset(filterResetData);
           }}
           className="w-30 h-10 bg-gray-400 text-white py-2 px-6 rounded shadow cursor-pointer"
         >

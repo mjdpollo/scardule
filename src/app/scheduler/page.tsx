@@ -1,11 +1,15 @@
 "use client";
 
-import ScheduleFilterForm from "@/components/ScheduleFilterForm";
+import ScheduleFilterForm, {
+  FilterFormData,
+  filterResetData,
+} from "@/components/ScheduleFilterForm";
 import ScheduleModal from "@/components/ScheduleModal";
 import SchedulerTable from "@/components/SchedulerTable";
 import {Schedule} from "@/type/schedule";
 import {Auth, getQueryFromFormData, getScarTechURL} from "@/utility/utility";
 import axios from "axios";
+import {format, subDays} from "date-fns";
 import {useRouter} from "next/navigation";
 import {useEffect, useState} from "react";
 import {FormProvider, useForm} from "react-hook-form";
@@ -18,14 +22,40 @@ export default function SchedulerPage() {
   const scheduleUpdatingForm = useForm<Schedule>({
     defaultValues: selectedSchedule,
   });
-  const scheduleFilterForm = useForm();
+  const scheduleFilterForm = useForm<FilterFormData>({
+    defaultValues: filterResetData,
+  });
 
   const openUpdatingScheduleModal = () => setShowModal(true);
   const closeUpdatingScheduleModal = () => setShowModal(false);
 
+  const [notDoneSchedules, setNotDoneSchedules] = useState<Schedule[]>([]);
+
+  const fetchNotDoneSchedules = async () => {
+    const yesterday = format(subDays(new Date(), 1), "yyyy-MM-dd");
+
+    try {
+      const waitingRes = await axios.get(
+        `${getScarTechURL()}/api/schedules/?release_date__lte=${yesterday}&release_status=대기`
+      );
+      if (waitingRes.status !== 200)
+        throw new Error("Failed to fetch schedules");
+      const emergencyRes = await axios.get(
+        `${getScarTechURL()}/api/schedules/?release_date__lte=${yesterday}&release_status=응급`
+      );
+      if (waitingRes.status !== 200)
+        throw new Error("Failed to fetch schedules");
+      const data = [...waitingRes.data, ...emergencyRes.data];
+      setNotDoneSchedules(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const handleSearch = async () => {
     const data = scheduleFilterForm.getValues();
     const query = getQueryFromFormData(data);
+    console.log(query);
     const res = await axios.get(`${getScarTechURL()}/api/schedules/?${query}`);
     console.log(res.data);
     setSchedules(res.data);
@@ -44,6 +74,7 @@ export default function SchedulerPage() {
     } else {
       alert("에러가 발생했습니다!");
     }
+    await fetchNotDoneSchedules();
     await handleSearch();
     closeUpdatingScheduleModal();
   };
@@ -69,6 +100,7 @@ export default function SchedulerPage() {
 
   useEffect(() => {
     Auth.validate(router);
+    fetchNotDoneSchedules();
     handleSearch(); // fetch all schedules by default
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -78,6 +110,17 @@ export default function SchedulerPage() {
       <FormProvider {...scheduleFilterForm}>
         <ScheduleFilterForm handleSearch={handleSearch} />
       </FormProvider>
+      <div className="border border-b-0 border-black text-xl font-bold p-3 mt-10 w-7xl bg-red-200">
+        미수목록
+      </div>
+      <SchedulerTable
+        schedules={notDoneSchedules}
+        setSelectedSchedule={setSelectedSchedule}
+        openModal={openUpdatingScheduleModal}
+      />
+      <div className="border border-b-0 border-black text-xl font-bold p-3 mt-10 w-7xl bg-lime-200">
+        검색목록
+      </div>
       <SchedulerTable
         schedules={schedules}
         setSelectedSchedule={setSelectedSchedule}
