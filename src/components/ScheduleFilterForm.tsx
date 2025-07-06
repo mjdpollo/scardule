@@ -308,6 +308,7 @@ export default function ScheduleFilterFeidls({
           <BPXPField name="back_door" label="백도어" />
           <BPXPField name="bonnet" label="본네트" />
           <BPXPField name="hood" label="후드" />
+          <BPXPField name="trunk" label="트렁크" />
         </div>
       </div>
       <div className="flex gap-4 mt-6 justify-end">
