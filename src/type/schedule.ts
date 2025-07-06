@@ -2,14 +2,14 @@ export type Schedule = {
   id: number | null;
   stock_date: string | null;
   release_date: string | null;
-  car_model: string;
-  car_number: string;
-  color_code: string;
-  supplier: string;
-  charger: string;
+  car_model: string | null;
+  car_number: string | null;
+  color_code: string | null;
+  supplier: string | null;
+  charger: string | null;
   content: string | null;
   working_content: string | null;
-  estimate: number;
+  estimate: number | null;
   note: string | null;
 
   front_bumper: BPXP | null;
@@ -29,7 +29,7 @@ export type Schedule = {
 
   number_of_repairs: number | null;
 
-  worker: string;
+  worker: string | null;
   plate_status: STATUS;
   paint_status: STATUS;
   common_status: STATUS;
