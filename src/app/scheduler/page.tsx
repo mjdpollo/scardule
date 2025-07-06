@@ -111,7 +111,7 @@ export default function SchedulerPage() {
         <ScheduleFilterForm handleSearch={handleSearch} />
       </FormProvider>
       <div className="border border-b-0 border-black text-xl font-bold p-3 mt-10 w-7xl bg-red-200">
-        미수목록
+        지연차량
       </div>
       <SchedulerTable
         schedules={notDoneSchedules}
@@ -119,7 +119,7 @@ export default function SchedulerPage() {
         openModal={openUpdatingScheduleModal}
       />
       <div className="border border-b-0 border-black text-xl font-bold p-3 mt-10 w-7xl bg-lime-200">
-        검색목록
+        진행차량
       </div>
       <SchedulerTable
         schedules={schedules}
