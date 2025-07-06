@@ -32,7 +32,7 @@ export default function UserPage() {
 
     try {
       const res = await fetch(
-        `${getScarTechURL()}/api/schedules/?release_date__gte=${today}&release_date__lte=${today}`
+        `${getScarTechURL()}/api/schedules/?release_date__gte=${today}`
       );
       if (!res.ok) throw new Error("Failed to fetch schedules");
       const data = await res.json();
