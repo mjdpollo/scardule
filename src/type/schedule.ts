@@ -123,3 +123,14 @@ export function getStatusClassName(status: STATUS) {
       return "";
   }
 }
+
+export function groupSchedulesByReleaseDate(
+  schedules: Schedule[]
+): Record<string, Schedule[]> {
+  return schedules.reduce((acc, schedule) => {
+    const dateKey = schedule.release_date || "미정";
+    if (!acc[dateKey]) acc[dateKey] = [];
+    acc[dateKey].push(schedule);
+    return acc;
+  }, {} as Record<string, Schedule[]>);
+}

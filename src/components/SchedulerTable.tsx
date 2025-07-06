@@ -1,5 +1,5 @@
 import {Dispatch, Fragment, SetStateAction} from "react";
-import {Schedule} from "../type/schedule";
+import {groupSchedulesByReleaseDate, Schedule} from "../type/schedule";
 import SchedulerScheduleRow from "./SchedulerScheduleRow";
 export default function SchedulerTable({
   schedules,
@@ -10,12 +10,7 @@ export default function SchedulerTable({
   setSelectedSchedule: Dispatch<SetStateAction<Schedule | undefined>>;
   openModal: () => void;
 }) {
-  const groupByReleaseDate = schedules.reduce((acc, schedule) => {
-    const dateKey = schedule.release_date || "미정";
-    if (!acc[dateKey]) acc[dateKey] = [];
-    acc[dateKey].push(schedule);
-    return acc;
-  }, {} as Record<string, Schedule[]>);
+  const groupByReleaseDate = groupSchedulesByReleaseDate(schedules);
 
   return (
     <div className="max-w-7xl mx-auto">
