@@ -96,7 +96,7 @@ export default function ScheduleFilterFeidls({
   return (
     <form
       onSubmit={handleSubmit(handleSearch)}
-      className="space-y-6 p-6 border rounded-xl max-w-7xl mx-auto bg-white shadow-md"
+      className="p-6 border rounded-xl max-w-7xl mx-auto bg-white shadow-md"
     >
       {/* 출고 정보 */}
       <div>
@@ -137,7 +137,7 @@ export default function ScheduleFilterFeidls({
         className="flex items-center justify-between cursor-pointer"
         onClick={() => setEnabledDetailSearch((prev) => !prev)}
       >
-        <h2 className="text-lg font-semibold">상세 검색</h2>
+        <h2 className="text-lg font-semibold my-3">상세 검색</h2>
         <span className="ml-1">
           {enabledDetailSearch ? (
             <ChevronUpIcon className="w-4 h-4 text-gray-400" />
@@ -149,12 +149,13 @@ export default function ScheduleFilterFeidls({
       <hr />
 
       <div
-        className={`overflow-hidden transition-all duration-300 ${
+        className={`p-1 overflow-hidden transition-all duration-300 ${
           enabledDetailSearch ? "max-h-250 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
         <div>
-          <h2 className="text-lg font-semibold mb-2">차량 정보</h2>
+          <h2 className="text-lg font-semibold my-2">차량 정보</h2>
+          <hr className="mb-1" />
           <div className="grid grid-cols-4 gap-4">
             <div>
               <label className="block mb-1">차종</label>
@@ -182,10 +183,10 @@ export default function ScheduleFilterFeidls({
             </div>
           </div>
         </div>
-
         {/* 입고 정보 */}
         <div>
-          <h2 className="text-lg font-semibold mb-2">입고 정보</h2>
+          <h2 className="text-lg font-semibold my-2">입고 정보</h2>
+          <hr className="mb-1" />
           <div className="grid grid-cols-4 gap-4 mb-4">
             <div className="col-span-1">
               <label className="block mb-1">입고일 이후</label>
@@ -238,19 +239,62 @@ export default function ScheduleFilterFeidls({
               />
             </div>
           </div>
-          <div className="col-span-4">
-            <label className="block mb-1">작업내용</label>
-            <textarea
-              {...register("content")}
-              placeholder="EX: 앞범퍼 및 본네트 수리"
-              className="border px-2 py-1 w-full"
-            />
+          <div>
+            <h2 className="text-lg font-semibold my-2">작업 내용</h2>
+            <hr className="mb-1" />
+            <div className="col-span-4">
+              <div className="grid grid-cols-5 gap-4">
+                <BPXPField name="front_bumper" label="앞범퍼" />
+                <BPXPField name="left_front_fender" label="L앞휀다" />
+                <BPXPField name="right_front_fender" label="R앞휀다" />
+                <BPXPField name="left_front_door" label="L앞도어" />
+                <BPXPField name="right_front_door" label="R앞도어" />
+                <BPXPField name="left_rear_door" label="L뒤도어" />
+                <BPXPField name="right_rear_door" label="R뒤도어" />
+                <BPXPField name="left_rear_fender" label="L뒤휀다" />
+                <BPXPField name="right_rear_fender" label="R뒤휀다" />
+                <BPXPField name="rear_bumper" label="뒤범퍼" />
+                <BPXPField name="back_door" label="백도어" />
+                <BPXPField name="bonnet" label="본네트" />
+                <BPXPField name="hood" label="후드" />
+                <BPXPField name="trunk" label="트렁크" />
+              </div>
+              <div className="cols-span-5 mt-4">
+                <label className="block mb-1">작업내용</label>
+                <textarea
+                  {...register("content")}
+                  placeholder="EX: 앞범퍼 및 본네트 수리"
+                  className="border px-2 py-1 w-full"
+                />
+              </div>
+            </div>
           </div>
         </div>
-
-        {/* 기타 */}
         <div>
-          <h2 className="text-lg font-semibold mb-2">기타</h2>
+          <h2 className="text-lg font-semibold my-2">작업상태</h2>
+          <hr className="mb-1" />
+          <div className="grid grid-cols-4 gap-4">
+            <div className="col-span-1">
+              <label className="block mb-1">판금상태</label>
+              <PlateStatusSelectField />
+            </div>
+            <div className="col-span-1">
+              <label className="block mb-1">도장상태</label>
+              <PaintStatusSelectField />
+            </div>
+            <div>
+              <label className="block mb-1">일반상태</label>
+              <CommonStatusSelectField />
+            </div>
+            <div className="col-span-1">
+              <label className="block mb-1">출고상태</label>
+              <CommonStatusSelectField />
+            </div>
+          </div>
+        </div>
+        <div>
+          <h2 className="text-lg font-semibold my-2">기타</h2>
+          <hr className="mb-1" />
           <div className="grid grid-cols-4 gap-4">
             <div>
               <label className="block mb-1">선견적 이상</label>
@@ -270,18 +314,6 @@ export default function ScheduleFilterFeidls({
                 className="border px-2 py-1 w-full"
               />
             </div>
-            <div className="col-span-1">
-              <label className="block mb-1">출고상태</label>
-              <PlateStatusSelectField />
-            </div>
-            <div className="col-span-1">
-              <label className="block mb-1">출고상태</label>
-              <PaintStatusSelectField />
-            </div>
-            <div className="col-span-1">
-              <label className="block mb-1">출고상태</label>
-              <CommonStatusSelectField />
-            </div>
           </div>
           <div className="mt-4">
             <label className="block mb-1">비고</label>
@@ -291,24 +323,6 @@ export default function ScheduleFilterFeidls({
               className="border px-2 py-1 w-full"
             />
           </div>
-        </div>
-
-        {/* 부위 필터 */}
-        <div className="grid grid-cols-5 gap-4">
-          <BPXPField name="front_bumper" label="앞범퍼" />
-          <BPXPField name="left_front_fender" label="L앞휀다" />
-          <BPXPField name="right_front_fender" label="R앞휀다" />
-          <BPXPField name="left_front_door" label="L앞도어" />
-          <BPXPField name="right_front_door" label="R앞도어" />
-          <BPXPField name="left_rear_door" label="L뒤도어" />
-          <BPXPField name="right_rear_door" label="R뒤도어" />
-          <BPXPField name="left_rear_fender" label="L뒤휀다" />
-          <BPXPField name="right_rear_fender" label="R뒤휀다" />
-          <BPXPField name="rear_bumper" label="뒤범퍼" />
-          <BPXPField name="back_door" label="백도어" />
-          <BPXPField name="bonnet" label="본네트" />
-          <BPXPField name="hood" label="후드" />
-          <BPXPField name="trunk" label="트렁크" />
         </div>
       </div>
       <div className="flex gap-4 mt-6 justify-end">

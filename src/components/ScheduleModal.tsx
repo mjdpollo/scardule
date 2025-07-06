@@ -162,6 +162,9 @@ export default function ScheduleModal({
                 placeholder="김아무개"
               />
             </div>
+            <div className="col-span-4 font-semibold border-b pt-2 pb-1">
+              작업상태
+            </div>
             <div>
               <label className="block mb-1">판금상태</label>
               <PlateStatusSelectField />
