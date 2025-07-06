@@ -245,15 +245,15 @@ export default function ScheduleFilterFeidls({
             <div className="col-span-4">
               <div className="grid grid-cols-5 gap-4">
                 <BPXPField name="front_bumper" label="앞범퍼" />
-                <BPXPField name="left_front_fender" label="L앞휀다" />
                 <BPXPField name="right_front_fender" label="R앞휀다" />
-                <BPXPField name="left_front_door" label="L앞도어" />
                 <BPXPField name="right_front_door" label="R앞도어" />
-                <BPXPField name="left_rear_door" label="L뒤도어" />
                 <BPXPField name="right_rear_door" label="R뒤도어" />
-                <BPXPField name="left_rear_fender" label="L뒤휀다" />
                 <BPXPField name="right_rear_fender" label="R뒤휀다" />
                 <BPXPField name="rear_bumper" label="뒤범퍼" />
+                <BPXPField name="left_front_fender" label="L앞휀다" />
+                <BPXPField name="left_front_door" label="L앞도어" />
+                <BPXPField name="left_rear_door" label="L뒤도어" />
+                <BPXPField name="left_rear_fender" label="L뒤휀다" />
                 <BPXPField name="back_door" label="백도어" />
                 <BPXPField name="bonnet" label="본네트" />
                 <BPXPField name="hood" label="후드" />
