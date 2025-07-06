@@ -78,7 +78,7 @@ export const creatingSchuedule: Schedule = {
   charger: "",
   content: "",
   working_content: null,
-  estimate: 0,
+  estimate: null,
   note: "",
   front_bumper: null,
   left_front_fender: null,

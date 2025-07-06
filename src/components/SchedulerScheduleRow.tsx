@@ -57,7 +57,7 @@ export default function SchedulerScheduleRow({
         {schedule.color_code}
       </td>
       <td className="border border-black text-base 1 py-1">
-        {schedule.estimate.toLocaleString()}원
+        {schedule.estimate ? `${schedule.estimate.toLocaleString()} 원` : "-"}
       </td>
       <td className="border border-black text-base 1 py-1">
         {schedule.worker}
