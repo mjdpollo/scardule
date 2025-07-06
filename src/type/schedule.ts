@@ -22,9 +22,10 @@ export type Schedule = {
   left_rear_fender: BPXP | null;
   right_rear_fender: BPXP | null;
   rear_bumper: BPXP | null;
-  rear_door: BPXP | null;
+  back_door: BPXP | null;
   bonnet: BPXP | null;
   hood: BPXP | null;
+  trunk: BPXP | null;
 
   number_of_repairs: number | null;
 
@@ -89,9 +90,10 @@ export const creatingSchuedule: Schedule = {
   left_rear_fender: null,
   right_rear_fender: null,
   rear_bumper: null,
-  rear_door: null,
+  back_door: null,
   bonnet: null,
   hood: null,
+  trunk: null,
   number_of_repairs: 0,
   worker: "",
   plate_status: STATUS.WAIT,

@@ -41,7 +41,7 @@ export type FilterFormData = {
   left_rear_fender?: string;
   right_rear_fender?: string;
   rear_bumper?: string;
-  rear_door?: string;
+  back_door?: string;
   bonnet?: string;
   hood?: string;
 
@@ -305,7 +305,7 @@ export default function ScheduleFilterFeidls({
           <BPXPField name="left_rear_fender" label="L뒤펜더" />
           <BPXPField name="right_rear_fender" label="R뒤펜더" />
           <BPXPField name="rear_bumper" label="뒤범퍼" />
-          <BPXPField name="rear_door" label="백도어" />
+          <BPXPField name="back_door" label="백도어" />
           <BPXPField name="bonnet" label="본네트" />
           <BPXPField name="hood" label="후드" />
         </div>

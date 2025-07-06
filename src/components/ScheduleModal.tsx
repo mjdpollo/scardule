@@ -202,9 +202,10 @@ export default function ScheduleModal({
               <BPXPField name="left_rear_fender" label="L뒤펜더" />
               <BPXPField name="right_rear_fender" label="R뒤펜더" />
               <BPXPField name="rear_bumper" label="뒤범퍼" />
-              <BPXPField name="rear_door" label="백도어" />
+              <BPXPField name="back_door" label="백도어" />
               <BPXPField name="bonnet" label="본네트" />
               <BPXPField name="hood" label="후드" />
+              <BPXPField name="trunk" label="후드" />
             </div>
 
             <div className="col-span-4">
