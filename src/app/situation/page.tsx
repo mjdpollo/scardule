@@ -7,6 +7,7 @@ import {
   groupSchedulesByReleaseExpectingDate,
   ReleaseStatusPatchData,
   Schedule,
+  STATUS,
 } from "@/type/schedule";
 import {Auth, getScarTechURL} from "@/utility/utility";
 import axios from "axios";
@@ -14,6 +15,15 @@ import {format} from "date-fns";
 import {useRouter} from "next/navigation";
 import {Fragment, useEffect, useState} from "react";
 import {FormProvider, useForm} from "react-hook-form";
+
+function lockedStatusAlert(schedule: Schedule) {
+  if (!schedule.id) {
+    alert("Schedule이 선택되지 않았습니다.");
+  }
+  if (schedule.release_status === STATUS.COMPLETE) {
+    alert("출고가 완료된 차량입니다.");
+  }
+}
 
 export default function UserPage() {
   const router = useRouter();
@@ -46,7 +56,7 @@ export default function UserPage() {
   };
 
   const handleUpdateWorker = async (schedule: Schedule) => {
-    if (schedule.id) {
+    if (schedule.id && schedule.release_status !== STATUS.COMPLETE) {
       const data: Schedule = {...schedule, worker: schedule.worker};
       const res = await axios.put(
         `${getScarTechURL()}/api/schedules/${schedule.id}/`,
@@ -56,14 +66,14 @@ export default function UserPage() {
         alert("에러가 발생했습니다.");
       }
     } else {
-      alert("Schedule이 선택되지 않았습니다.");
+      lockedStatusAlert(schedule);
     }
     await fetchSchedules();
     closeModal();
   };
 
   const handleUpdatePlateStatus = async (schedule: Schedule) => {
-    if (schedule.id) {
+    if (schedule.id && schedule.release_status !== STATUS.COMPLETE) {
       const data: Schedule = {
         ...schedule,
         plate_status: getToggledStatus(schedule.plate_status),
@@ -76,12 +86,12 @@ export default function UserPage() {
         alert("에러가 발생했습니다.");
       }
     } else {
-      alert("Schedule이 선택되지 않았습니다.");
+      lockedStatusAlert(schedule);
     }
     await fetchSchedules();
   };
   const handleUpdatePaintStatus = async (schedule: Schedule) => {
-    if (schedule.id) {
+    if (schedule.id && schedule.release_status !== STATUS.COMPLETE) {
       const data: Schedule = {
         ...schedule,
         paint_status: getToggledStatus(schedule.paint_status),
@@ -94,12 +104,12 @@ export default function UserPage() {
         alert("에러가 발생했습니다.");
       }
     } else {
-      alert("Schedule이 선택되지 않았습니다.");
+      lockedStatusAlert(schedule);
     }
     await fetchSchedules();
   };
   const handleUpdateCommonStatus = async (schedule: Schedule) => {
-    if (schedule.id) {
+    if (schedule.id && schedule.release_status !== STATUS.COMPLETE) {
       const data: Schedule = {
         ...schedule,
         common_status: getToggledStatus(schedule.common_status),
@@ -112,7 +122,7 @@ export default function UserPage() {
         alert("에러가 발생했습니다.");
       }
     } else {
-      alert("Schedule이 선택되지 않았습니다.");
+      lockedStatusAlert(schedule);
     }
     await fetchSchedules();
   };
