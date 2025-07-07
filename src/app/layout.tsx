@@ -40,7 +40,7 @@ export default function RootLayout({
           fallback={
             <div className="w-screen h-screen flex justify-center items-center">
               <Image
-                src="/scardule.png"
+                src="/images/scardule.png"
                 width={400}
                 height={200}
                 alt="SCARDULE LOGO"

@@ -81,5 +81,8 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next|api|favicon.ico|robots.txt|images|fonts).*)"],
+  matcher: [
+    // Match all pages under the root except specific folders
+    "/((?!_next/|favicon.ico|robots.txt|images/|fonts/|api/).*)",
+  ],
 };

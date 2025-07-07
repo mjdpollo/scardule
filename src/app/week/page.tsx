@@ -87,7 +87,6 @@ export default function SchedulerPage() {
 
   useEffect(() => {
     fetchWeekSchedules();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

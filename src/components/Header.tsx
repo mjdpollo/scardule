@@ -55,7 +55,7 @@ export default function Header() {
           <div className="flex justify-start items-center font-bold text-center">
             <Link className="mr-5" href="/">
               <Image
-                src="/scardule.png"
+                src="/images/scardule.png"
                 alt="SCARDULE LOGO"
                 width={190}
                 height={65}
@@ -85,7 +85,7 @@ export default function Header() {
               <Image
                 width={90}
                 height={50}
-                src="/scar_tech.png"
+                src="/images/scar_tech.png"
                 alt="SCAR LOGO"
               />
             </Link>
