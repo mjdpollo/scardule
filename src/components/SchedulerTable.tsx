@@ -1,5 +1,8 @@
 import {Dispatch, Fragment, SetStateAction} from "react";
-import {groupSchedulesByReleaseExpectingDate, Schedule} from "../type/schedule";
+import {
+  Schedule,
+  sortedGroupedSchedulesByReleaseExpectingDate,
+} from "../type/schedule";
 import SchedulerScheduleRow from "./SchedulerScheduleRow";
 
 import {parseISO} from "date-fns";
@@ -20,14 +23,15 @@ export default function SchedulerTable({
   setSelectedSchedule: Dispatch<SetStateAction<Schedule | undefined>>;
   openModal: () => void;
 }) {
-  const groupByReleaseDate = groupSchedulesByReleaseExpectingDate(schedules);
+  const groupByReleaseDate =
+    sortedGroupedSchedulesByReleaseExpectingDate(schedules);
 
   return (
     <div className="max-w-7xl mx-auto">
       <table className="table-fixed w-full border border-black text-sm">
         <SchedulerTableHeader />
         <tbody>
-          {Object.entries(groupByReleaseDate).map(([date, rows]) => (
+          {groupByReleaseDate.map(([date, rows]) => (
             <Fragment key={date.toString()}>
               <tr className="bg-white-100 font-bold text-center">
                 <td colSpan={16} className="border border-black px-2 py-2">

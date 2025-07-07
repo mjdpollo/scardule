@@ -144,3 +144,36 @@ export function groupSchedulesByReleaseExpectingDate(
     return acc;
   }, {} as Record<string, Schedule[]>);
 }
+
+export function sortedGroupedSchedulesByReleaseExpectingDate(
+  schedules: Schedule[]
+): [string, Schedule[]][] {
+  const grouped: Record<string, Schedule[]> = schedules.reduce(
+    (acc, schedule) => {
+      const dateKey = schedule.release_expected_date || "미정";
+      if (!acc[dateKey]) acc[dateKey] = [];
+      acc[dateKey].push(schedule);
+      return acc;
+    },
+    {} as Record<string, Schedule[]>
+  );
+
+  // Sort each group by release_date (inside the group)
+  for (const date in grouped) {
+    grouped[date].sort((a, b) => {
+      const aTime = a.release_date
+        ? new Date(a.release_date).getTime()
+        : Infinity;
+      const bTime = b.release_date
+        ? new Date(b.release_date).getTime()
+        : Infinity;
+      return aTime - bTime;
+    });
+  }
+  // Return entries sorted by the dateKey
+  return Object.entries(grouped).sort(([dateA], [dateB]) => {
+    if (dateA === "미정") return 1;
+    if (dateB === "미정") return -1;
+    return new Date(dateA).getTime() - new Date(dateB).getTime();
+  });
+}

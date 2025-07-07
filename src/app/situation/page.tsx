@@ -4,15 +4,14 @@ import UserScheduleRow from "@/components/UserScheduleRow";
 import WorkerModal from "@/components/WorkerModal";
 import {
   getToggledStatus,
-  groupSchedulesByReleaseExpectingDate,
   ReleaseStatusPatchData,
   Schedule,
+  sortedGroupedSchedulesByReleaseExpectingDate,
   STATUS,
 } from "@/type/schedule";
-import {Auth, getScarTechURL} from "@/utility/utility";
+import {getScarTechURL} from "@/utility/utility";
 import axios from "axios";
 import {format, subDays} from "date-fns";
-import {useRouter} from "next/navigation";
 import {Fragment, useEffect, useState} from "react";
 import {FormProvider, useForm} from "react-hook-form";
 import UserTableHeader from "../../components/UserTableHeader";
@@ -27,8 +26,6 @@ function lockedStatusAlert(schedule: Schedule) {
 }
 
 export default function UserPage() {
-  const router = useRouter();
-
   const [workingSchedules, setWorkingSchedules] = useState<Schedule[]>([]);
   const [delayedSchedules, setDelayedSchedules] = useState<Schedule[]>([]);
   const [selectedSchedule, setSelectedSchedule] = useState<Schedule | null>(
@@ -64,6 +61,8 @@ export default function UserPage() {
         throw new Error("Failed to fetch Working Schedules");
       const workingData = workingRes.data;
       setWorkingSchedules(workingData);
+      console.log("delatedData: ", delayedData);
+      console.log("workingData: ", workingData);
     } catch (err) {
       console.error(err);
     }
@@ -160,7 +159,6 @@ export default function UserPage() {
   };
 
   useEffect(() => {
-    Auth.validate(router);
     fetchSchedules();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -174,32 +172,32 @@ export default function UserPage() {
         <table className="table-fixed w-full border-collapse border border-black text-base">
           <UserTableHeader />
           <tbody>
-            {Object.entries(
-              groupSchedulesByReleaseExpectingDate(delayedSchedules)
-            ).map(([date, rows]) => (
-              <Fragment key={date.toString()}>
-                <tr className="bg-yellow-100 font-bold text-center">
-                  <td colSpan={15} className="border border-black px-2 py-2">
-                    {date}
-                  </td>
-                </tr>
-                {rows.map((schedule, index) => (
-                  <UserScheduleRow
-                    key={schedule.id}
-                    schedule={schedule}
-                    openWorkerModal={(schedule) => {
-                      setSelectedSchedule(schedule);
-                      openModal();
-                    }}
-                    handleUpdatePlateStatus={handleUpdatePlateStatus}
-                    handleUpdatePaintStatus={handleUpdatePaintStatus}
-                    handleUpdateCommonStatus={handleUpdateCommonStatus}
-                    handleUpdateReleaseStatus={handleUpdateReleaseStatus}
-                    index={index}
-                  />
-                ))}
-              </Fragment>
-            ))}
+            {sortedGroupedSchedulesByReleaseExpectingDate(delayedSchedules).map(
+              ([date, rows]) => (
+                <Fragment key={date.toString()}>
+                  <tr className="bg-yellow-100 font-bold text-center">
+                    <td colSpan={15} className="border border-black px-2 py-2">
+                      {date}
+                    </td>
+                  </tr>
+                  {rows.map((schedule, index) => (
+                    <UserScheduleRow
+                      key={schedule.id}
+                      schedule={schedule}
+                      openWorkerModal={(schedule) => {
+                        setSelectedSchedule(schedule);
+                        openModal();
+                      }}
+                      handleUpdatePlateStatus={handleUpdatePlateStatus}
+                      handleUpdatePaintStatus={handleUpdatePaintStatus}
+                      handleUpdateCommonStatus={handleUpdateCommonStatus}
+                      handleUpdateReleaseStatus={handleUpdateReleaseStatus}
+                      index={index}
+                    />
+                  ))}
+                </Fragment>
+              )
+            )}
           </tbody>
         </table>
         <div className="border border-b-0 border-black text-xl font-bold p-3 mt-10 w-7xl bg-lime-200">
@@ -208,32 +206,32 @@ export default function UserPage() {
         <table className="table-fixed w-full border-collapse border border-black text-base">
           <UserTableHeader />
           <tbody>
-            {Object.entries(
-              groupSchedulesByReleaseExpectingDate(workingSchedules)
-            ).map(([date, rows]) => (
-              <Fragment key={date.toString()}>
-                <tr className="bg-yellow-100 font-bold text-center">
-                  <td colSpan={15} className="border border-black px-2 py-2">
-                    {date}
-                  </td>
-                </tr>
-                {rows.map((schedule, index) => (
-                  <UserScheduleRow
-                    key={schedule.id}
-                    schedule={schedule}
-                    openWorkerModal={(schedule) => {
-                      setSelectedSchedule(schedule);
-                      openModal();
-                    }}
-                    handleUpdatePlateStatus={handleUpdatePlateStatus}
-                    handleUpdatePaintStatus={handleUpdatePaintStatus}
-                    handleUpdateCommonStatus={handleUpdateCommonStatus}
-                    handleUpdateReleaseStatus={handleUpdateReleaseStatus}
-                    index={index}
-                  />
-                ))}
-              </Fragment>
-            ))}
+            {sortedGroupedSchedulesByReleaseExpectingDate(workingSchedules).map(
+              ([date, rows]) => (
+                <Fragment key={date.toString()}>
+                  <tr className="bg-yellow-100 font-bold text-center">
+                    <td colSpan={15} className="border border-black px-2 py-2">
+                      {date}
+                    </td>
+                  </tr>
+                  {rows.map((schedule, index) => (
+                    <UserScheduleRow
+                      key={schedule.id}
+                      schedule={schedule}
+                      openWorkerModal={(schedule) => {
+                        setSelectedSchedule(schedule);
+                        openModal();
+                      }}
+                      handleUpdatePlateStatus={handleUpdatePlateStatus}
+                      handleUpdatePaintStatus={handleUpdatePaintStatus}
+                      handleUpdateCommonStatus={handleUpdateCommonStatus}
+                      handleUpdateReleaseStatus={handleUpdateReleaseStatus}
+                      index={index}
+                    />
+                  ))}
+                </Fragment>
+              )
+            )}
           </tbody>
         </table>
       </div>

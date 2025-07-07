@@ -7,16 +7,13 @@ import ScheduleFilterForm, {
 import ScheduleModal from "@/components/ScheduleModal";
 import SchedulerTable from "@/components/SchedulerTable";
 import {Schedule} from "@/type/schedule";
-import {Auth, getQueryFromFormData, getScarTechURL} from "@/utility/utility";
+import {getQueryFromFormData, getScarTechURL} from "@/utility/utility";
 import axios from "axios";
 import {format, subDays} from "date-fns";
-import {useRouter} from "next/navigation";
 import {useEffect, useState} from "react";
 import {FormProvider, useForm} from "react-hook-form";
 
 export default function SchedulerPage() {
-  const router = useRouter();
-
   const [selectedSchedule, setSelectedSchedule] = useState<Schedule>();
   const [showModal, setShowModal] = useState(false);
   const scheduleUpdatingForm = useForm<Schedule>({
@@ -98,7 +95,6 @@ export default function SchedulerPage() {
   const [schedules, setSchedules] = useState<Schedule[]>([]);
 
   useEffect(() => {
-    Auth.validate(router);
     fetchNotDoneSchedules();
     handleSearch(); // fetch all schedules by default
     // eslint-disable-next-line react-hooks/exhaustive-deps

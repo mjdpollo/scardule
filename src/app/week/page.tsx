@@ -2,16 +2,13 @@
 import ScheduleModal from "@/components/ScheduleModal";
 import SchedulerTable from "@/components/SchedulerTable";
 import {Schedule} from "@/type/schedule";
-import {Auth, getScarTechURL} from "@/utility/utility";
+import {getScarTechURL} from "@/utility/utility";
 import axios from "axios";
 import {endOfWeek, format, startOfWeek} from "date-fns";
-import {useRouter} from "next/navigation";
 import {useEffect, useState} from "react";
 import {FormProvider, useForm} from "react-hook-form";
 
 export default function SchedulerPage() {
-  const router = useRouter();
-
   const [selectedSchedule, setSelectedSchedule] = useState<Schedule>();
   const [showModal, setShowModal] = useState(false);
   const scheduleUpdatingForm = useForm<Schedule>({
@@ -89,7 +86,6 @@ export default function SchedulerPage() {
   };
 
   useEffect(() => {
-    Auth.validate(router);
     fetchWeekSchedules();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
