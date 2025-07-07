@@ -129,7 +129,7 @@ export default function ScheduleFilterFeidls({
             />
           </div>
           <div className="col-span-1">
-            <label className="block mb-1">부서</label>
+            <label className="block mb-1">지점</label>
             <DepartmentSelectField />
           </div>
           <div className="col-span-1">

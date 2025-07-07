@@ -1,15 +1,10 @@
 "use client";
-
-import ScheduleFilterForm, {
-  FilterFormData,
-  filterResetData,
-} from "@/components/ScheduleFilterForm";
 import ScheduleModal from "@/components/ScheduleModal";
 import SchedulerTable from "@/components/SchedulerTable";
 import {Schedule} from "@/type/schedule";
-import {Auth, getQueryFromFormData, getScarTechURL} from "@/utility/utility";
+import {Auth, getScarTechURL} from "@/utility/utility";
 import axios from "axios";
-import {format, subDays} from "date-fns";
+import {endOfWeek, format, startOfWeek} from "date-fns";
 import {useRouter} from "next/navigation";
 import {useEffect, useState} from "react";
 import {FormProvider, useForm} from "react-hook-form";
@@ -22,41 +17,41 @@ export default function SchedulerPage() {
   const scheduleUpdatingForm = useForm<Schedule>({
     defaultValues: selectedSchedule,
   });
-  const scheduleFilterForm = useForm<FilterFormData>({
-    defaultValues: filterResetData,
-  });
 
   const openUpdatingScheduleModal = () => setShowModal(true);
   const closeUpdatingScheduleModal = () => setShowModal(false);
 
-  const [notDoneSchedules, setNotDoneSchedules] = useState<Schedule[]>([]);
+  const [weekSchedules, setWeekSchedules] = useState<Schedule[]>([]);
 
-  const fetchNotDoneSchedules = async () => {
-    const yesterday = format(subDays(new Date(), 1), "yyyy-MM-dd");
+  const fetchWeekSchedules = async () => {
+    // Get Monday and Sunday of the current week
+    const weekStart = format(
+      startOfWeek(new Date(), {weekStartsOn: 1}),
+      "yyyy-MM-dd"
+    ); // Monday
+    const weekEnd = format(
+      endOfWeek(new Date(), {weekStartsOn: 1}),
+      "yyyy-MM-dd"
+    ); // Sunday
 
     try {
       const waitingRes = await axios.get(
-        `${getScarTechURL()}/api/schedules/?release_expected_date__lte=${yesterday}&release_status=대기`
+        `${getScarTechURL()}/api/schedules/?release_expected_date__gte=${weekStart}&release_expected_date__lte=${weekEnd}&release_status=대기`
       );
       if (waitingRes.status !== 200)
-        throw new Error("Failed to fetch waiting schedules");
+        throw new Error("Failed to fetch schedules");
+
       const emergencyRes = await axios.get(
-        `${getScarTechURL()}/api/schedules/?release_expected_date__lte=${yesterday}&release_status=응급`
+        `${getScarTechURL()}/api/schedules/?release_expected_date__gte=${weekStart}&release_expected_date__lte=${weekEnd}&release_status=응급`
       );
       if (emergencyRes.status !== 200)
-        throw new Error("Failed to fetch emergency schedules");
-      const data = [...waitingRes.data, ...emergencyRes.data];
-      setNotDoneSchedules(data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+        throw new Error("Failed to fetch schedules");
 
-  const handleSearch = async () => {
-    const data = scheduleFilterForm.getValues();
-    const query = getQueryFromFormData(data);
-    const res = await axios.get(`${getScarTechURL()}/api/schedules/?${query}`);
-    setSchedules(res.data);
+      const data = [...waitingRes.data, ...emergencyRes.data];
+      setWeekSchedules(data); // ✅ Set this week's schedules here
+    } catch (err) {
+      console.error("Error fetching week schedules:", err);
+    }
   };
 
   const handleUpdatingSchedule = async (schedule: Schedule) => {
@@ -72,8 +67,7 @@ export default function SchedulerPage() {
     } else {
       alert("에러가 발생했습니다!");
     }
-    await fetchNotDoneSchedules();
-    await handleSearch();
+    await fetchWeekSchedules();
     closeUpdatingScheduleModal();
   };
 
@@ -90,41 +84,27 @@ export default function SchedulerPage() {
     } else {
       alert("에러가 발생했습니다!");
     }
-    await fetchNotDoneSchedules();
-    await handleSearch();
+    await fetchWeekSchedules();
     closeUpdatingScheduleModal();
   };
 
-  const [schedules, setSchedules] = useState<Schedule[]>([]);
-
   useEffect(() => {
     Auth.validate(router);
-    fetchNotDoneSchedules();
-    handleSearch(); // fetch all schedules by default
+    fetchWeekSchedules();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
-      <FormProvider {...scheduleFilterForm}>
-        <ScheduleFilterForm handleSearch={handleSearch} />
-      </FormProvider>
-      <div className="border border-b-0 border-black text-xl font-bold p-3 mt-10 w-7xl bg-red-200">
-        지연차량
+      <div className="border border-b-0 border-black text-xl font-bold p-3 mt-10 w-7xl bg-blue-200">
+        이번주 차량
       </div>
       <SchedulerTable
-        schedules={notDoneSchedules}
+        schedules={weekSchedules}
         setSelectedSchedule={setSelectedSchedule}
         openModal={openUpdatingScheduleModal}
       />
-      <div className="border border-b-0 border-black text-xl font-bold p-3 mt-10 w-7xl bg-lime-200">
-        검색차량
-      </div>
-      <SchedulerTable
-        schedules={schedules}
-        setSelectedSchedule={setSelectedSchedule}
-        openModal={openUpdatingScheduleModal}
-      />
+
       <FormProvider {...scheduleUpdatingForm}>
         <ScheduleModal
           visible={showModal}

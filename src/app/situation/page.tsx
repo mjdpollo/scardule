@@ -11,10 +11,11 @@ import {
 } from "@/type/schedule";
 import {Auth, getScarTechURL} from "@/utility/utility";
 import axios from "axios";
-import {format} from "date-fns";
+import {format, subDays} from "date-fns";
 import {useRouter} from "next/navigation";
 import {Fragment, useEffect, useState} from "react";
 import {FormProvider, useForm} from "react-hook-form";
+import UserTableHeader from "../../components/UserTableHeader";
 
 function lockedStatusAlert(schedule: Schedule) {
   if (!schedule.id) {
@@ -28,7 +29,8 @@ function lockedStatusAlert(schedule: Schedule) {
 export default function UserPage() {
   const router = useRouter();
 
-  const [schedules, setSchedules] = useState<Schedule[]>([]);
+  const [workingSchedules, setWorkingSchedules] = useState<Schedule[]>([]);
+  const [delayedSchedules, setDelayedSchedules] = useState<Schedule[]>([]);
   const [selectedSchedule, setSelectedSchedule] = useState<Schedule | null>(
     null
   );
@@ -38,18 +40,30 @@ export default function UserPage() {
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
 
-  const groupByReleaseDate = groupSchedulesByReleaseExpectingDate(schedules);
-
   const fetchSchedules = async () => {
     const today = format(new Date(), "yyyy-MM-dd");
+    const yesterday = format(subDays(new Date(), 1), "yyyy-MM-dd");
 
     try {
-      const res = await fetch(
+      const waitingRes = await axios.get(
+        `${getScarTechURL()}/api/schedules/?release_expected_date__lte=${yesterday}&release_status=대기`
+      );
+      if (waitingRes.status !== 200)
+        throw new Error("Failed to fetch schedules");
+      const emergencyRes = await axios.get(
+        `${getScarTechURL()}/api/schedules/?release_expected_date__lte=${yesterday}&release_status=응급`
+      );
+      if (emergencyRes.status !== 200)
+        throw new Error("Failed to fetch schedules");
+      const delayedData = [...waitingRes.data, ...emergencyRes.data];
+      setDelayedSchedules(delayedData);
+      const workingRes = await axios.get(
         `${getScarTechURL()}/api/schedules/?release_expected_date__gte=${today}`
       );
-      if (!res.ok) throw new Error("Failed to fetch schedules");
-      const data = await res.json();
-      setSchedules(data);
+      if (workingRes.status !== 200)
+        throw new Error("Failed to fetch Working Schedules");
+      const workingData = workingRes.data;
+      setWorkingSchedules(workingData);
     } catch (err) {
       console.error(err);
     }
@@ -154,56 +168,49 @@ export default function UserPage() {
   return (
     <div className="flex flex-col min-h-screen items-center justify-start px-4 py-8">
       <div className="overflow-x-auto w-full max-w-7xl">
+        <div className="border border-b-0 border-black text-xl font-bold p-3 mt-10 w-7xl bg-red-200">
+          지연차량
+        </div>
         <table className="table-fixed w-full border-collapse border border-black text-base">
-          <thead>
-            <tr className="bg-gray-100 text-center">
-              <th className="w-[20px] border border-black text-base px-1- py-1"></th>
-              <th className="w-[80px] border border-black text-base px-1- py-1">
-                차량번호
-              </th>
-              <th className="w-[100px] border border-black text-base px-1- py-1">
-                차종
-              </th>
-              <th className="border border-black text-base px-1- py-1">
-                작업내용
-              </th>
-              <th className="w-[40px] border border-black text-base px-1- py-1">
-                판수
-              </th>
-              <th className="w-[60px] border border-black text-base px-1- py-1">
-                입고일
-              </th>
-              <th className="w-[60px] border border-black text-base px-1- py-1">
-                예정일
-              </th>
-              <th className="w-[80px] border border-black text-base px-1- py-1">
-                차/대
-              </th>
-              <th className="w-[80px] border border-black text-base px-1- py-1">
-                입고처
-              </th>
-              <th className="w-[60px] border border-black text-base px-1- py-1">
-                색상
-              </th>
-              <th className="w-[60px] border border-black text-base px-1- py-1">
-                작업자
-              </th>
-              <th className="w-[40px] border border-black text-base px-1- py-1">
-                판금
-              </th>
-              <th className="w-[40px] border border-black text-base px-1- py-1">
-                도장
-              </th>
-              <th className="w-[40px] border border-black text-base px-1- py-1">
-                일반
-              </th>
-              <th className="w-[40px] border border-black text-base px-1- py-1">
-                출고
-              </th>
-            </tr>
-          </thead>
+          <UserTableHeader />
           <tbody>
-            {Object.entries(groupByReleaseDate).map(([date, rows]) => (
+            {Object.entries(
+              groupSchedulesByReleaseExpectingDate(delayedSchedules)
+            ).map(([date, rows]) => (
+              <Fragment key={date.toString()}>
+                <tr className="bg-yellow-100 font-bold text-center">
+                  <td colSpan={15} className="border border-black px-2 py-2">
+                    {date}
+                  </td>
+                </tr>
+                {rows.map((schedule, index) => (
+                  <UserScheduleRow
+                    key={schedule.id}
+                    schedule={schedule}
+                    openWorkerModal={(schedule) => {
+                      setSelectedSchedule(schedule);
+                      openModal();
+                    }}
+                    handleUpdatePlateStatus={handleUpdatePlateStatus}
+                    handleUpdatePaintStatus={handleUpdatePaintStatus}
+                    handleUpdateCommonStatus={handleUpdateCommonStatus}
+                    handleUpdateReleaseStatus={handleUpdateReleaseStatus}
+                    index={index}
+                  />
+                ))}
+              </Fragment>
+            ))}
+          </tbody>
+        </table>
+        <div className="border border-b-0 border-black text-xl font-bold p-3 mt-10 w-7xl bg-lime-200">
+          진행차량
+        </div>
+        <table className="table-fixed w-full border-collapse border border-black text-base">
+          <UserTableHeader />
+          <tbody>
+            {Object.entries(
+              groupSchedulesByReleaseExpectingDate(workingSchedules)
+            ).map(([date, rows]) => (
               <Fragment key={date.toString()}>
                 <tr className="bg-yellow-100 font-bold text-center">
                   <td colSpan={15} className="border border-black px-2 py-2">

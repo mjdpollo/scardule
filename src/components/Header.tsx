@@ -70,6 +70,9 @@ export default function Header() {
             <Link href="/scheduler" className={linkClass("/scheduler")}>
               일정관리
             </Link>
+            <Link href="/week" className={linkClass("/week")}>
+              주간일정
+            </Link>
             <Link href="/situation" className={linkClass("/situation")}>
               작업현황
             </Link>

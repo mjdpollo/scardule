@@ -1,6 +1,16 @@
 import {Dispatch, Fragment, SetStateAction} from "react";
 import {groupSchedulesByReleaseExpectingDate, Schedule} from "../type/schedule";
 import SchedulerScheduleRow from "./SchedulerScheduleRow";
+
+import {parseISO} from "date-fns";
+import SchedulerTableHeader from "./SchedulerTableHeader";
+function getKoreanDayOfWeek(dateStr: string): string {
+  const dayNames = ["일", "월", "화", "수", "목", "금", "토"];
+  const date = parseISO(dateStr);
+  const day = date.getDay(); // 0 (Sun) - 6 (Sat)
+  return dayNames[day];
+}
+
 export default function SchedulerTable({
   schedules,
   setSelectedSchedule,
@@ -15,32 +25,13 @@ export default function SchedulerTable({
   return (
     <div className="max-w-7xl mx-auto">
       <table className="table-fixed w-full border border-black text-sm">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="w-[20px] border border-black px-1 py-1"></th>
-            <th className="w-[80px] border border-black px-1 py-1">차량번호</th>
-            <th className="w-[100px] border border-black px-1 py-1">차종</th>
-            <th className="border border-black px-1 py-1">작업내용</th>
-            <th className="w-[40px] border border-black px-1 py-1">판수</th>
-            <th className="w-[60px] border border-black px-1 py-1">입고일</th>
-            <th className="w-[60px] border border-black px-1 py-1">예정일</th>
-            <th className="w-[80px] border border-black px-1 py-1">차/대</th>
-            <th className="w-[80px] border border-black px-1 py-1">입고처</th>
-            <th className="w-[60px] border border-black px-1 py-1">색상</th>
-            <th className="w-[100px] border border-black px-1 py-1">선견적</th>
-            <th className="w-[60px] border border-black px-1 py-1">작업자</th>
-            <th className="w-[40px] border border-black px-1 py-1">판금</th>
-            <th className="w-[40px] border border-black px-1 py-1">도장</th>
-            <th className="w-[40px] border border-black px-1 py-1">일반</th>
-            <th className="w-[40px] border border-black px-1 py-1">출고</th>
-          </tr>
-        </thead>
+        <SchedulerTableHeader />
         <tbody>
           {Object.entries(groupByReleaseDate).map(([date, rows]) => (
             <Fragment key={date.toString()}>
               <tr className="bg-white-100 font-bold text-center">
                 <td colSpan={16} className="border border-black px-2 py-2">
-                  {date}
+                  {`${date} (${getKoreanDayOfWeek(date)})`}
                 </td>
               </tr>
               {rows.map((schedule, index) => (
