@@ -44,7 +44,9 @@ export default function SchedulerScheduleRow({
         {schedule.stock_date ? formatMD(schedule.stock_date) : "-"}
       </td>
       <td className="border border-black text-base 1 py-1">
-        {schedule.release_date ? formatMD(schedule.release_date) : "-"}
+        {schedule.release_expected_date
+          ? formatMD(schedule.release_expected_date)
+          : "-"}
       </td>
       <td className="border border-black text-base 1 py-1">
         {schedule.charger}

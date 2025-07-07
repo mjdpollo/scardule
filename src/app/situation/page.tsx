@@ -4,7 +4,7 @@ import UserScheduleRow from "@/components/UserScheduleRow";
 import WorkerModal from "@/components/WorkerModal";
 import {
   getToggledStatus,
-  groupSchedulesByReleaseDate,
+  groupSchedulesByReleaseExpectingDate,
   ReleaseStatusPatchData,
   Schedule,
 } from "@/type/schedule";
@@ -28,14 +28,14 @@ export default function UserPage() {
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
 
-  const groupByReleaseDate = groupSchedulesByReleaseDate(schedules);
+  const groupByReleaseDate = groupSchedulesByReleaseExpectingDate(schedules);
 
   const fetchSchedules = async () => {
     const today = format(new Date(), "yyyy-MM-dd");
 
     try {
       const res = await fetch(
-        `${getScarTechURL()}/api/schedules/?release_date__gte=${today}`
+        `${getScarTechURL()}/api/schedules/?release_expected_date__gte=${today}`
       );
       if (!res.ok) throw new Error("Failed to fetch schedules");
       const data = await res.json();
@@ -164,7 +164,7 @@ export default function UserPage() {
                 입고일
               </th>
               <th className="w-[60px] border border-black text-base px-1- py-1">
-                출고일
+                예정일
               </th>
               <th className="w-[80px] border border-black text-base px-1- py-1">
                 차/대

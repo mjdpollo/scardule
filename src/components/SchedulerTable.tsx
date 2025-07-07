@@ -1,5 +1,5 @@
 import {Dispatch, Fragment, SetStateAction} from "react";
-import {groupSchedulesByReleaseDate, Schedule} from "../type/schedule";
+import {groupSchedulesByReleaseExpectingDate, Schedule} from "../type/schedule";
 import SchedulerScheduleRow from "./SchedulerScheduleRow";
 export default function SchedulerTable({
   schedules,
@@ -10,7 +10,7 @@ export default function SchedulerTable({
   setSelectedSchedule: Dispatch<SetStateAction<Schedule | undefined>>;
   openModal: () => void;
 }) {
-  const groupByReleaseDate = groupSchedulesByReleaseDate(schedules);
+  const groupByReleaseDate = groupSchedulesByReleaseExpectingDate(schedules);
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -23,7 +23,7 @@ export default function SchedulerTable({
             <th className="border border-black px-1 py-1">작업내용</th>
             <th className="w-[40px] border border-black px-1 py-1">판수</th>
             <th className="w-[60px] border border-black px-1 py-1">입고일</th>
-            <th className="w-[60px] border border-black px-1 py-1">출고일</th>
+            <th className="w-[60px] border border-black px-1 py-1">예정일</th>
             <th className="w-[80px] border border-black px-1 py-1">차/대</th>
             <th className="w-[80px] border border-black px-1 py-1">입고처</th>
             <th className="w-[60px] border border-black px-1 py-1">색상</th>

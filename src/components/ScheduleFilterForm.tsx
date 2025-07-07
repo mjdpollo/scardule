@@ -8,6 +8,7 @@ import {useState} from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {useFormContext} from "react-hook-form";
+import DepartmentSelectField from "./DepartmentSelectField";
 import {
   CommonStatusSelectField,
   PaintStatusSelectField,
@@ -18,8 +19,9 @@ import {
 export type FilterFormData = {
   stock_date__gte?: Date;
   stock_date__lte?: Date;
-  release_date__gte?: Date;
-  release_date__lte?: Date;
+  release_expected_date__gte?: Date;
+  release_expected_date__lte?: Date;
+  release_date?: Date;
   car_model?: string;
   car_number?: string;
   color_code?: string;
@@ -53,7 +55,7 @@ export type FilterFormData = {
 };
 
 export const filterResetData: FilterFormData = {
-  release_date__gte: new Date(),
+  release_expected_date__gte: new Date(),
 };
 
 export default function ScheduleFilterFeidls({
@@ -103,11 +105,11 @@ export default function ScheduleFilterFeidls({
         <h2 className="text-lg font-semibold mb-2">출고 정보</h2>
         <div className="grid grid-cols-4 gap-4">
           <div className="col-span-1">
-            <label className="block mb-1">출고일 이후</label>
+            <label className="block mb-1">출고예정일 이후</label>
             <DatePicker
-              selected={watch("release_date__gte") || null}
+              selected={watch("release_expected_date__gte") || null}
               onChange={(date) =>
-                setValue("release_date__gte", date ?? undefined)
+                setValue("release_expected_date__gte", date ?? undefined)
               }
               dateFormat="yyyy-MM-dd"
               placeholderText="EX: 2025-06-01"
@@ -115,16 +117,20 @@ export default function ScheduleFilterFeidls({
             />
           </div>
           <div className="col-span-1">
-            <label className="block mb-1">출고일 이전</label>
+            <label className="block mb-1">출고예정일 이전</label>
             <DatePicker
-              selected={watch("release_date__lte") || null}
+              selected={watch("release_expected_date__lte") || null}
               onChange={(date) =>
-                setValue("release_date__lte", date ?? undefined)
+                setValue("release_expected_date__lte", date ?? undefined)
               }
               dateFormat="yyyy-MM-dd"
               placeholderText="EX: 2025-06-30"
               className="border px-2 py-1 w-full"
             />
+          </div>
+          <div className="col-span-1">
+            <label className="block mb-1">부서</label>
+            <DepartmentSelectField />
           </div>
           <div className="col-span-1">
             <label className="block mb-1">출고상태</label>

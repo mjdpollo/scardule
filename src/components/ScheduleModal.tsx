@@ -7,6 +7,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {useFormContext} from "react-hook-form";
 import BPXPField from "./BPXPField";
+import DepartmentSelectField from "./DepartmentSelectField";
 import NumberField from "./NumberInput";
 import {
   CommonStatusSelectField,
@@ -58,6 +59,13 @@ export default function ScheduleModal({
             className="grid grid-cols-4 gap-4 text-sm"
           >
             <div className="col-span-4 font-semibold border-b pb-1">
+              지점정보
+            </div>
+            <div>
+              <label className="block mb-1">지점</label>
+              <DepartmentSelectField />
+            </div>
+            <div className="col-span-4 font-semibold border-b pb-1">
               날짜정보
             </div>
             <div className="col-span-1">
@@ -76,6 +84,27 @@ export default function ScheduleModal({
                 dateFormat="yyyy-MM-dd"
                 placeholderText="입고일"
               />
+            </div>
+            <div className="col-span-1">
+              <label className="block mb-1">출고예정일</label>
+              <div className="w-full">
+                <DatePicker
+                  selected={
+                    watch("release_expected_date")
+                      ? new Date(watch("release_expected_date")!)
+                      : null
+                  }
+                  onChange={(date) =>
+                    setValue(
+                      "release_expected_date",
+                      date ? format(date, "yyyy-MM-dd") : null
+                    )
+                  }
+                  className="border px-2 py-1 w-full"
+                  dateFormat="yyyy-MM-dd"
+                  placeholderText="출고예정일"
+                />
+              </div>
             </div>
             <div className="col-span-1">
               <label className="block mb-1">출고일</label>

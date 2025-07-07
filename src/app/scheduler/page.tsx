@@ -36,12 +36,12 @@ export default function SchedulerPage() {
 
     try {
       const waitingRes = await axios.get(
-        `${getScarTechURL()}/api/schedules/?release_date__lte=${yesterday}&release_status=대기`
+        `${getScarTechURL()}/api/schedules/?release_expected_date__lte=${yesterday}&release_status=대기`
       );
       if (waitingRes.status !== 200)
         throw new Error("Failed to fetch schedules");
       const emergencyRes = await axios.get(
-        `${getScarTechURL()}/api/schedules/?release_date__lte=${yesterday}&release_status=응급`
+        `${getScarTechURL()}/api/schedules/?release_expected_date__lte=${yesterday}&release_status=응급`
       );
       if (waitingRes.status !== 200)
         throw new Error("Failed to fetch schedules");

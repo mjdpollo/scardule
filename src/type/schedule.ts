@@ -1,7 +1,10 @@
 export type Schedule = {
   id: number | null;
   stock_date: string | null;
+  release_expected_date: string | null;
   release_date: string | null;
+  department: DEPARTMENT | null;
+
   car_model: string | null;
   car_number: string | null;
   color_code: string | null;
@@ -67,10 +70,17 @@ export enum STATUS {
   COMPLETE = "완료",
 }
 
+export enum DEPARTMENT {
+  SCAR = "SCAR",
+  BUNDANG = "남분당",
+}
+
 export const creatingSchuedule: Schedule = {
   id: null,
   stock_date: null,
+  release_expected_date: null,
   release_date: null,
+  department: null,
   car_model: "",
   car_number: "",
   color_code: "",
@@ -124,11 +134,11 @@ export function getStatusClassName(status: STATUS) {
   }
 }
 
-export function groupSchedulesByReleaseDate(
+export function groupSchedulesByReleaseExpectingDate(
   schedules: Schedule[]
 ): Record<string, Schedule[]> {
   return schedules.reduce((acc, schedule) => {
-    const dateKey = schedule.release_date || "미정";
+    const dateKey = schedule.release_expected_date || "미정";
     if (!acc[dateKey]) acc[dateKey] = [];
     acc[dateKey].push(schedule);
     return acc;
