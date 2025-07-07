@@ -32,20 +32,13 @@ export default function SchedulerPage() {
     ); // Sunday
 
     try {
-      const waitingRes = await axios.get(
-        `${getScarTechURL()}/api/schedules/?release_expected_date__gte=${weekStart}&release_expected_date__lte=${weekEnd}&release_status=대기`
+      const thisWeekRes = await axios.get(
+        `${getScarTechURL()}/api/schedules/?release_expected_date__gte=${weekStart}&release_expected_date__lte=${weekEnd}`
       );
-      if (waitingRes.status !== 200)
+      if (thisWeekRes.status !== 200)
         throw new Error("Failed to fetch schedules");
 
-      const emergencyRes = await axios.get(
-        `${getScarTechURL()}/api/schedules/?release_expected_date__gte=${weekStart}&release_expected_date__lte=${weekEnd}&release_status=응급`
-      );
-      if (emergencyRes.status !== 200)
-        throw new Error("Failed to fetch schedules");
-
-      const data = [...waitingRes.data, ...emergencyRes.data];
-      setWeekSchedules(data); // ✅ Set this week's schedules here
+      setWeekSchedules(thisWeekRes.data); // ✅ Set this week's schedules here
     } catch (err) {
       console.error("Error fetching week schedules:", err);
     }
