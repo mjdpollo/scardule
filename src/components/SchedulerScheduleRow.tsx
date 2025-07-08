@@ -73,6 +73,13 @@ export default function SchedulerScheduleRow({
       </td>
       <td
         className={`border border-black text-base 1 py-1 ${getStatusClassName(
+          schedule.bottom_status
+        )}`}
+      >
+        {schedule.bottom_status}
+      </td>
+      <td
+        className={`border border-black text-base 1 py-1 ${getStatusClassName(
           schedule.paint_status
         )}`}
       >

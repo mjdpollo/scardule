@@ -10,6 +10,7 @@ import BPXPField from "./BPXPField";
 import DepartmentSelectField from "./DepartmentSelectField";
 import NumberField from "./NumberInput";
 import {
+  BottomStatusSelectField,
   CommonStatusSelectField,
   PaintStatusSelectField,
   PlateStatusSelectField,
@@ -197,6 +198,10 @@ export default function ScheduleModal({
             <div>
               <label className="block mb-1">판금상태</label>
               <PlateStatusSelectField />
+            </div>
+            <div>
+              <label className="block mb-1">하지상태</label>
+              <BottomStatusSelectField />
             </div>
             <div>
               <label className="block mb-1">도장상태</label>

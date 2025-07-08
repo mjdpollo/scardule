@@ -1,9 +1,22 @@
-import {Schedule, getStatusClassName} from "@/type/schedule";
+import {STATUS, Schedule, getStatusClassName} from "@/type/schedule";
 
+export function lockedStatusAlert(schedule: Schedule): boolean {
+  if (!schedule.id) {
+    alert("Schedule이 선택되지 않았습니다.");
+    return true;
+  }
+  if (schedule.release_status === STATUS.COMPLETE) {
+    alert("출고가 완료된 차량입니다.");
+    return true;
+  }
+  return false;
+}
 interface Props {
   schedule: Schedule;
+  openComponentModal: (schedule: Schedule) => void;
   openWorkerModal: (schedule: Schedule) => void;
   handleUpdatePlateStatus: (schedule: Schedule) => void;
+  handleUpdateBottomStatus: (schedule: Schedule) => void;
   handleUpdatePaintStatus: (schedule: Schedule) => void;
   handleUpdateCommonStatus: (schedule: Schedule) => void;
   handleUpdateReleaseStatus: (schedule: Schedule) => void;
@@ -12,8 +25,10 @@ interface Props {
 
 export default function UserScheduleRow({
   schedule,
+  openComponentModal,
   openWorkerModal,
   handleUpdatePlateStatus,
+  handleUpdateBottomStatus,
   handleUpdatePaintStatus,
   handleUpdateCommonStatus,
   handleUpdateReleaseStatus,
@@ -50,18 +65,27 @@ export default function UserScheduleRow({
           : "-"}
       </td>
       <td className="border border-black text-base 1 py-1">
-        {schedule.charger}
-      </td>
-      <td className="border border-black text-base 1 py-1">
         {schedule.supplier}
       </td>
       <td className="border border-black text-base 1 py-1">
         {schedule.color_code}
       </td>
       <td
-        className="border border-black text-base 1 py-1 cursor-pointer bg-amber-100"
+        className="border border-black text-base 1 py-1 cursor-pointer bg-amber-50"
         onClick={() => {
-          openWorkerModal(schedule);
+          if (!lockedStatusAlert(schedule)) {
+            openComponentModal(schedule);
+          }
+        }}
+      >
+        {schedule.component}
+      </td>
+      <td
+        className="border border-black text-base 1 py-1 cursor-pointer bg-amber-50"
+        onClick={() => {
+          if (!lockedStatusAlert(schedule)) {
+            openWorkerModal(schedule);
+          }
         }}
       >
         {schedule.worker}
@@ -71,17 +95,33 @@ export default function UserScheduleRow({
           schedule.plate_status
         )} cursor-pointer`}
         onClick={() => {
-          handleUpdatePlateStatus(schedule);
+          if (!lockedStatusAlert(schedule)) {
+            handleUpdatePlateStatus(schedule);
+          }
         }}
       >
         {schedule.plate_status}
       </td>
       <td
         className={`border border-black text-base 1 py-1 ${getStatusClassName(
+          schedule.bottom_status
+        )} cursor-pointer`}
+        onClick={() => {
+          if (!lockedStatusAlert(schedule)) {
+            handleUpdateBottomStatus(schedule);
+          }
+        }}
+      >
+        {schedule.bottom_status}
+      </td>
+      <td
+        className={`border border-black text-base 1 py-1 ${getStatusClassName(
           schedule.paint_status
         )} cursor-pointer`}
         onClick={() => {
-          handleUpdatePaintStatus(schedule);
+          if (!lockedStatusAlert(schedule)) {
+            handleUpdatePaintStatus(schedule);
+          }
         }}
       >
         {schedule.paint_status}
@@ -91,7 +131,9 @@ export default function UserScheduleRow({
           schedule.common_status
         )} cursor-pointer`}
         onClick={() => {
-          handleUpdateCommonStatus(schedule);
+          if (!lockedStatusAlert(schedule)) {
+            handleUpdateCommonStatus(schedule);
+          }
         }}
       >
         {schedule.common_status}
@@ -101,7 +143,9 @@ export default function UserScheduleRow({
           schedule.release_status
         )} cursor-pointer`}
         onClick={() => {
-          handleUpdateReleaseStatus(schedule);
+          if (!lockedStatusAlert(schedule)) {
+            handleUpdateReleaseStatus(schedule);
+          }
         }}
       >
         {schedule.release_status}

@@ -10,6 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import {useFormContext} from "react-hook-form";
 import DepartmentSelectField from "./DepartmentSelectField";
 import {
+  BottomStatusSelectField,
   CommonStatusSelectField,
   PaintStatusSelectField,
   PlateStatusSelectField,
@@ -285,15 +286,15 @@ export default function ScheduleFilterFeidls({
               <PlateStatusSelectField />
             </div>
             <div className="col-span-1">
+              <label className="block mb-1">하지상태</label>
+              <BottomStatusSelectField />
+            </div>
+            <div className="col-span-1">
               <label className="block mb-1">도장상태</label>
               <PaintStatusSelectField />
             </div>
             <div>
               <label className="block mb-1">일반상태</label>
-              <CommonStatusSelectField />
-            </div>
-            <div className="col-span-1">
-              <label className="block mb-1">출고상태</label>
               <CommonStatusSelectField />
             </div>
           </div>

@@ -32,8 +32,11 @@ export type Schedule = {
 
   number_of_repairs: number | null;
 
+  component: string | null;
   worker: string | null;
+
   plate_status: STATUS;
+  bottom_status: STATUS;
   paint_status: STATUS;
   common_status: STATUS;
   release_status: STATUS;
@@ -105,8 +108,10 @@ export const creatingSchuedule: Schedule = {
   hood: null,
   trunk: null,
   number_of_repairs: 0,
+  component: "",
   worker: "",
   plate_status: STATUS.WAIT,
+  bottom_status: STATUS.WAIT,
   paint_status: STATUS.WAIT,
   common_status: STATUS.WAIT,
   release_status: STATUS.WAIT,

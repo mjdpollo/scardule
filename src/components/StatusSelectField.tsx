@@ -10,6 +10,10 @@ const options = [
 ];
 
 export const PlateStatusSelectField = WithSelectField("plate_status", options);
+export const BottomStatusSelectField = WithSelectField(
+  "bottom_status",
+  options
+);
 export const PaintStatusSelectField = WithSelectField("paint_status", options);
 export const CommonStatusSelectField = WithSelectField(
   "common_status",

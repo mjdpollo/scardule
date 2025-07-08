@@ -15,6 +15,7 @@ export default function SchedulerTableHeader() {
         <th className="w-[100px] border border-black px-1 py-1">선견적</th>
         <th className="w-[60px] border border-black px-1 py-1">작업자</th>
         <th className="w-[40px] border border-black px-1 py-1">판금</th>
+        <th className="w-[40px] border border-black px-1 py-1">하지</th>
         <th className="w-[40px] border border-black px-1 py-1">도장</th>
         <th className="w-[40px] border border-black px-1 py-1">일반</th>
         <th className="w-[40px] border border-black px-1 py-1">출고</th>

@@ -34,7 +34,7 @@ export default function SchedulerTable({
           {groupByReleaseDate.map(([date, rows]) => (
             <Fragment key={date.toString()}>
               <tr className="bg-white-100 font-bold text-center">
-                <td colSpan={16} className="border border-black px-2 py-2">
+                <td colSpan={17} className="border border-black px-2 py-2">
                   {`${date} (${getKoreanDayOfWeek(date)})`}
                 </td>
               </tr>
@@ -53,7 +53,7 @@ export default function SchedulerTable({
                 <td colSpan={2} className="border border-black px-2 py-2">
                   {date}
                 </td>
-                <td colSpan={14} className="border border-black px-2 py-2 ">
+                <td colSpan={15} className="border border-black px-2 py-2 ">
                   {rows
                     .reduce((sum, s) => sum + (s.estimate || 0), 0)
                     .toLocaleString()}
@@ -66,7 +66,7 @@ export default function SchedulerTable({
             <td colSpan={2} className="border border-black px-2 py-2">
               총 {schedules.length} 건
             </td>
-            <td colSpan={14} className="border border-black px-2 py-2">
+            <td colSpan={15} className="border border-black px-2 py-2">
               {`${schedules
                 .reduce((sum, s) => sum + (s.estimate || 0), 0)
                 .toLocaleString()} 원`}
