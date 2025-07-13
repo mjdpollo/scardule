@@ -28,13 +28,16 @@ export default function SchedulerTable({
 
   return (
     <div className="max-w-7xl mx-auto">
-      <table className="table-fixed w-full border border-black text-sm">
+      <table className="table-fixed w-full border-separate border-spacing-0 border-[0.5px] border-black text-sm">
         <SchedulerTableHeader />
         <tbody>
           {groupByReleaseDate.map(([date, rows]) => (
             <Fragment key={date.toString()}>
               <tr className="bg-white-100 font-bold text-center">
-                <td colSpan={17} className="border border-black px-2 py-2">
+                <td
+                  colSpan={17}
+                  className="border-[0.5px] border-black px-2 py-2"
+                >
                   {`${date} (${getKoreanDayOfWeek(date)})`}
                 </td>
               </tr>
@@ -50,10 +53,16 @@ export default function SchedulerTable({
                 />
               ))}
               <tr className="bg-yellow-100 font-bold text-center">
-                <td colSpan={2} className="border border-black px-2 py-2">
+                <td
+                  colSpan={2}
+                  className="border-[0.5px] border-black px-2 py-2"
+                >
                   {date}
                 </td>
-                <td colSpan={15} className="border border-black px-2 py-2 ">
+                <td
+                  colSpan={15}
+                  className="border-[0.5px] border-black px-2 py-2 "
+                >
                   {rows
                     .reduce((sum, s) => sum + (s.estimate || 0), 0)
                     .toLocaleString()}
@@ -63,10 +72,10 @@ export default function SchedulerTable({
             </Fragment>
           ))}
           <tr className="bg-yellow-200 font-bold text-center">
-            <td colSpan={2} className="border border-black px-2 py-2">
+            <td colSpan={2} className="border-[0.5px] border-black px-2 py-2">
               총 {schedules.length} 건
             </td>
-            <td colSpan={15} className="border border-black px-2 py-2">
+            <td colSpan={15} className="border-[0.5px] border-black px-2 py-2">
               {`${schedules
                 .reduce((sum, s) => sum + (s.estimate || 0), 0)
                 .toLocaleString()} 원`}

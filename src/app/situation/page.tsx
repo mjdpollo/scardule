@@ -182,18 +182,21 @@ export default function UserPage() {
 
   return (
     <div className="flex flex-col min-h-screen items-center justify-start px-4 py-8">
-      <div className="overflow-x-auto w-full max-w-7xl">
+      <div className="relative w-full max-w-7xl">
         <div className="border border-b-0 border-black text-xl font-bold p-3 mt-10 w-7xl bg-red-200">
           지연차량
         </div>
-        <table className="table-fixed w-full border-collapse border border-black text-base">
+        <table className="table-fixed w-full border-separate border-spacing-0 border-[0.5px] border-black text-base">
           <UserTableHeader />
           <tbody>
             {sortedGroupedSchedulesByReleaseExpectingDate(delayedSchedules).map(
               ([date, rows]) => (
                 <Fragment key={date.toString()}>
                   <tr className="bg-yellow-100 font-bold text-center">
-                    <td colSpan={16} className="border border-black px-2 py-2">
+                    <td
+                      colSpan={16}
+                      className="border-[0.5px] border-black px-2 py-2"
+                    >
                       {date}
                     </td>
                   </tr>
@@ -225,14 +228,17 @@ export default function UserPage() {
         <div className="border border-b-0 border-black text-xl font-bold p-3 mt-10 w-7xl bg-lime-200">
           진행차량
         </div>
-        <table className="table-fixed w-full border-collapse border border-black text-base">
+        <table className="table-fixed w-full border-separate border-spacing-0 border-[0.5px] border-black text-base">
           <UserTableHeader />
           <tbody>
             {sortedGroupedSchedulesByReleaseExpectingDate(workingSchedules).map(
               ([date, rows]) => (
                 <Fragment key={date.toString()}>
                   <tr className="bg-yellow-100 font-bold text-center">
-                    <td colSpan={16} className="border border-black px-2 py-2">
+                    <td
+                      colSpan={16}
+                      className="border-[0.5px] border-black px-2 py-2"
+                    >
                       {date}
                     </td>
                   </tr>
