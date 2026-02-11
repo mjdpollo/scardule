@@ -11,7 +11,14 @@ import {
 } from "@/type/schedule";
 import {getScarTechURL} from "@/utility/utility";
 import axios from "axios";
-import {format, subDays} from "date-fns";
+import {format, parseISO, subDays} from "date-fns";
+
+function getKoreanDayOfWeek(dateStr: string): string {
+  const dayNames = ["일", "월", "화", "수", "목", "금", "토"];
+  const date = parseISO(dateStr);
+  const day = date.getDay();
+  return dayNames[day];
+}
 import {Fragment, useEffect, useState} from "react";
 import {FormProvider, useForm} from "react-hook-form";
 import UserTableHeader from "../../components/UserTableHeader";
@@ -194,10 +201,15 @@ export default function UserPage() {
                 <Fragment key={date.toString()}>
                   <tr className="bg-yellow-100 font-bold text-center">
                     <td
-                      colSpan={16}
+                      colSpan={14}
                       className="border-[0.5px] border-black px-2 py-2"
                     >
-                      {date} /{" "}
+                      {date} ({getKoreanDayOfWeek(date)})
+                    </td>
+                    <td
+                      colSpan={2}
+                      className="border-[0.5px] border-black px-2 py-2"
+                    >
                       {rows.reduce(
                         (sum, s) => sum + (s.number_of_repairs || 0),
                         0
@@ -241,10 +253,15 @@ export default function UserPage() {
                 <Fragment key={date.toString()}>
                   <tr className="bg-yellow-100 font-bold text-center">
                     <td
-                      colSpan={16}
+                      colSpan={14}
                       className="border-[0.5px] border-black px-2 py-2"
                     >
-                      {date} /{" "}
+                      {date} ({getKoreanDayOfWeek(date)})
+                    </td>
+                    <td
+                      colSpan={2}
+                      className="border-[0.5px] border-black px-2 py-2"
+                    >
                       {rows.reduce(
                         (sum, s) => sum + (s.number_of_repairs || 0),
                         0
