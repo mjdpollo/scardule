@@ -197,7 +197,12 @@ export default function UserPage() {
                       colSpan={16}
                       className="border-[0.5px] border-black px-2 py-2"
                     >
-                      {date}
+                      {date} /{" "}
+                      {rows.reduce(
+                        (sum, s) => sum + (s.number_of_repairs || 0),
+                        0
+                      )}
+                      판
                     </td>
                   </tr>
                   {rows.map((schedule, index) => (
@@ -239,7 +244,12 @@ export default function UserPage() {
                       colSpan={16}
                       className="border-[0.5px] border-black px-2 py-2"
                     >
-                      {date}
+                      {date} /{" "}
+                      {rows.reduce(
+                        (sum, s) => sum + (s.number_of_repairs || 0),
+                        0
+                      )}
+                      판
                     </td>
                   </tr>
                   {rows.map((schedule, index) => (

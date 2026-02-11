@@ -54,13 +54,18 @@ export default function SchedulerTable({
               ))}
               <tr className="bg-yellow-100 font-bold text-center">
                 <td
-                  colSpan={2}
+                  colSpan={3}
                   className="border-[0.5px] border-black px-2 py-2"
                 >
-                  {date}
+                  {date} / {rows.length}건 /{" "}
+                  {rows.reduce(
+                    (sum, s) => sum + (s.number_of_repairs || 0),
+                    0
+                  )}
+                  판
                 </td>
                 <td
-                  colSpan={15}
+                  colSpan={14}
                   className="border-[0.5px] border-black px-2 py-2 "
                 >
                   {rows
@@ -72,10 +77,15 @@ export default function SchedulerTable({
             </Fragment>
           ))}
           <tr className="bg-yellow-200 font-bold text-center">
-            <td colSpan={2} className="border-[0.5px] border-black px-2 py-2">
-              총 {schedules.length} 건
+            <td colSpan={3} className="border-[0.5px] border-black px-2 py-2">
+              총 {schedules.length}건 /{" "}
+              {schedules.reduce(
+                (sum, s) => sum + (s.number_of_repairs || 0),
+                0
+              )}
+              판
             </td>
-            <td colSpan={15} className="border-[0.5px] border-black px-2 py-2">
+            <td colSpan={14} className="border-[0.5px] border-black px-2 py-2">
               {`${schedules
                 .reduce((sum, s) => sum + (s.estimate || 0), 0)
                 .toLocaleString()} 원`}
