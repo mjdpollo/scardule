@@ -3,7 +3,7 @@ import {NextRequest, NextResponse} from "next/server";
 
 const scarTechURL =
   process.env.NODE_ENV === "production"
-    ? "https://scartech.site"
+    ? "https://scar-tech.site"
     : "http://127.0.0.1:8000";
 
 export enum ROLE {
@@ -52,7 +52,7 @@ export function middleware(request: NextRequest) {
 
   const isUserAvailable = ["/situation"].includes(pathname);
   const isSchedulerAvailable = ["/situation", "/scheduler", "/week"].includes(
-    pathname
+    pathname,
   );
 
   if (!token) {
