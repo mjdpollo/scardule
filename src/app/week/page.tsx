@@ -84,7 +84,7 @@ export default function SchedulerPage() {
 
   return (
     <>
-      <div className="border border-b-0 border-black text-xl font-bold p-3 mt-10 w-7xl bg-blue-200">
+      <div className="border border-b-0 border-black text-xl font-bold p-3 mt-10 w-9xl bg-blue-200">
         이번주 차량
       </div>
       <SchedulerTable

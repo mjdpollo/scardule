@@ -27,7 +27,7 @@ export default function SchedulerTable({
     sortedGroupedSchedulesByReleaseExpectingDate(schedules);
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-9xl mx-auto">
       <table className="table-fixed w-full border-separate border-spacing-0 border-[0.5px] border-black text-sm">
         <SchedulerTableHeader />
         <tbody>

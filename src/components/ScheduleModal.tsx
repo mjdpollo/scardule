@@ -68,7 +68,7 @@ export default function ScheduleModal({
               <DepartmentSelectField />
             </div>
             <div>
-              <label className="block mb-1">주차장</label>
+              <label className="block mb-1">주차</label>
               <ParkingSelectField />
             </div>
             <div className="col-span-4 font-semibold border-b pb-1">

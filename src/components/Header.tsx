@@ -51,7 +51,7 @@ export default function Header() {
   return (
     <>
       <header className="fixed flex justify-center w-full h-[100] text-lg z-30 shadow bg-white">
-        <div className="min-w-7xl flex justify-between">
+        <div className="min-w-9xl flex justify-between">
           <div className="flex justify-start items-center font-bold text-center">
             <Link className="mr-5" href="/">
               <Image

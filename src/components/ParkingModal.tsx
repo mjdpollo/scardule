@@ -31,7 +31,7 @@ export default function ParkingModal({
       <div className="fixed inset-0 flex items-center justify-center bg-black opacity-40"></div>
       <div className="fixed inset-0 z-50 flex items-center justify-center ">
         <div className="bg-white p-6 rounded-xl w-full max-w-2xs overflow-visible border-orange-500 border-4 text-center ">
-          <h2 className="text-xl font-semibold mb-4">{`[${schedule.car_number}] 주차장 변경`}</h2>
+          <h2 className="text-xl font-semibold mb-4">{`[${schedule.car_number}] 주차 변경`}</h2>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="grid grid-cols-1 text-sm"

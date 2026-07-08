@@ -99,7 +99,7 @@ export default function ScheduleFilterFeidls({
   return (
     <form
       onSubmit={handleSubmit(handleSearch)}
-      className="p-6 border rounded-xl max-w-7xl mx-auto bg-white shadow-md"
+      className="p-6 border rounded-xl max-w-9xl mx-auto bg-white shadow-md"
     >
       {/* 출고 정보 */}
       <div>

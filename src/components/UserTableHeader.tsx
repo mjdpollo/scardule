@@ -30,8 +30,8 @@ export default function UserTableHeader() {
         <th className="w-[100px] border-[0.5px] border-black text-base px-1- py-1">
           부품
         </th>
-        <th className="w-[80px] border-[0.5px] border-black text-base px-1- py-1">
-          주차장
+        <th className="w-[40px] border-[0.5px] border-black text-base px-1- py-1">
+          주차
         </th>
         <th className="w-[50px] border-[0.5px] border-black text-base px-1- py-1">
           작업자

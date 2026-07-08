@@ -209,8 +209,8 @@ export default function UserPage() {
 
   return (
     <div className="flex flex-col min-h-screen items-center justify-start px-4 py-8">
-      <div className="relative w-full max-w-7xl">
-        <div className="border border-b-0 border-black text-xl font-bold p-3 mt-10 w-7xl bg-red-200">
+      <div className="relative w-full max-w-9xl">
+        <div className="border border-b-0 border-black text-xl font-bold p-3 mt-10 w-9xl bg-red-200">
           지연차량
         </div>
         <table className="table-fixed w-full border-separate border-spacing-0 border-[0.5px] border-black text-base">
@@ -266,7 +266,7 @@ export default function UserPage() {
             )}
           </tbody>
         </table>
-        <div className="border border-b-0 border-black text-xl font-bold p-3 mt-10 w-7xl bg-lime-200">
+        <div className="border border-b-0 border-black text-xl font-bold p-3 mt-10 w-9xl bg-lime-200">
           진행차량
         </div>
         <table className="table-fixed w-full border-separate border-spacing-0 border-[0.5px] border-black text-base">
