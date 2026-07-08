@@ -7,8 +7,8 @@ import ScheduleFilterForm, {
 import ScheduleModal from "@/components/ScheduleModal";
 import SchedulerTable from "@/components/SchedulerTable";
 import {Schedule} from "@/type/schedule";
-import {getQueryFromFormData, getScarTechURL} from "@/utility/utility";
-import axios from "axios";
+import {getQueryFromFormData} from "@/utility/utility";
+import {api} from "@/utility/api";
 import {format, subDays} from "date-fns";
 import {useEffect, useState} from "react";
 import {FormProvider, useForm} from "react-hook-form";
@@ -32,13 +32,13 @@ export default function SchedulerPage() {
     const yesterday = format(subDays(new Date(), 1), "yyyy-MM-dd");
 
     try {
-      const waitingRes = await axios.get(
-        `${getScarTechURL()}/api/schedules/?release_expected_date__lte=${yesterday}&release_status=대기`
+      const waitingRes = await api.get(
+        `/api/schedules/?release_expected_date__lte=${yesterday}&release_status=대기`
       );
       if (waitingRes.status !== 200)
         throw new Error("Failed to fetch waiting schedules");
-      const emergencyRes = await axios.get(
-        `${getScarTechURL()}/api/schedules/?release_expected_date__lte=${yesterday}&release_status=응급`
+      const emergencyRes = await api.get(
+        `/api/schedules/?release_expected_date__lte=${yesterday}&release_status=응급`
       );
       if (emergencyRes.status !== 200)
         throw new Error("Failed to fetch emergency schedules");
@@ -52,17 +52,14 @@ export default function SchedulerPage() {
   const handleSearch = async () => {
     const data = scheduleFilterForm.getValues();
     const query = getQueryFromFormData(data);
-    const res = await axios.get(`${getScarTechURL()}/api/schedules/?${query}`);
+    const res = await api.get(`/api/schedules/?${query}`);
     setSchedules(res.data);
   };
 
   const handleUpdatingSchedule = async (schedule: Schedule) => {
     console.log("💾 Saving schedule:", schedule);
     if (schedule.id) {
-      const res = await axios.put(
-        `${getScarTechURL()}/api/schedules/${schedule.id}/`,
-        schedule
-      );
+      const res = await api.put(`/api/schedules/${schedule.id}/`, schedule);
       if (res.status !== 200) {
         alert("에러가 발생했습니다.");
       }
@@ -78,9 +75,7 @@ export default function SchedulerPage() {
     console.log("💾 Saving schedule:", schedule);
     if (!schedule) return;
     if (schedule.id) {
-      const res = await axios.delete(
-        `${getScarTechURL()}/api/schedules/${schedule.id}/`
-      );
+      const res = await api.delete(`/api/schedules/${schedule.id}/`);
       if (res.status !== 204) {
         alert("에러가 발생했습니다.");
       }

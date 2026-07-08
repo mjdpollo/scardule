@@ -2,8 +2,7 @@
 import ScheduleModal from "@/components/ScheduleModal";
 import SchedulerTable from "@/components/SchedulerTable";
 import {Schedule} from "@/type/schedule";
-import {getScarTechURL} from "@/utility/utility";
-import axios from "axios";
+import {api} from "@/utility/api";
 import {endOfWeek, format, startOfWeek} from "date-fns";
 import {useEffect, useState} from "react";
 import {FormProvider, useForm} from "react-hook-form";
@@ -32,8 +31,8 @@ export default function SchedulerPage() {
     ); // Sunday
 
     try {
-      const thisWeekRes = await axios.get(
-        `${getScarTechURL()}/api/schedules/?release_expected_date__gte=${weekStart}&release_expected_date__lte=${weekEnd}`
+      const thisWeekRes = await api.get(
+        `/api/schedules/?release_expected_date__gte=${weekStart}&release_expected_date__lte=${weekEnd}`
       );
       if (thisWeekRes.status !== 200)
         throw new Error("Failed to fetch schedules");
@@ -47,10 +46,7 @@ export default function SchedulerPage() {
   const handleUpdatingSchedule = async (schedule: Schedule) => {
     console.log("💾 Saving schedule:", schedule);
     if (schedule.id) {
-      const res = await axios.put(
-        `${getScarTechURL()}/api/schedules/${schedule.id}/`,
-        schedule
-      );
+      const res = await api.put(`/api/schedules/${schedule.id}/`, schedule);
       if (res.status !== 200) {
         alert("에러가 발생했습니다.");
       }
@@ -65,9 +61,7 @@ export default function SchedulerPage() {
     console.log("💾 Saving schedule:", schedule);
     if (!schedule) return;
     if (schedule.id) {
-      const res = await axios.delete(
-        `${getScarTechURL()}/api/schedules/${schedule.id}/`
-      );
+      const res = await api.delete(`/api/schedules/${schedule.id}/`);
       if (res.status !== 204) {
         alert("에러가 발생했습니다.");
       }

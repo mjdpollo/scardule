@@ -1,9 +1,9 @@
 "use client";
 
 import BPXPField from "@/components/BPXPField";
-import {getQueryFromFormData, getScarTechURL} from "@/utility/utility";
-import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/20/solid"; // 또는 24/solid
-import axios from "axios";
+import {getQueryFromFormData} from "@/utility/utility";
+import {api} from "@/utility/api";
+import {ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/20/solid";
 import {useState} from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -73,11 +73,9 @@ export default function ScheduleFilterFeidls({
     const data = getValues();
     const query = getQueryFromFormData(data);
 
-    const url = `${getScarTechURL()}/download_schedule/?${query}`;
-
     try {
-      const res = await axios.get(url, {
-        responseType: "blob", // ✅ 중요!
+      const res = await api.get(`/download_schedule/?${query}`, {
+        responseType: "blob",
       });
 
       const blob = new Blob([res.data], {type: "text/csv;charset=utf-8;"});

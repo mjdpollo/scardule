@@ -10,8 +10,7 @@ import {
   Schedule,
   sortedGroupedSchedulesByReleaseExpectingDate,
 } from "@/type/schedule";
-import {getScarTechURL} from "@/utility/utility";
-import axios from "axios";
+import {api} from "@/utility/api";
 import {format, parseISO, subDays} from "date-fns";
 
 function getKoreanDayOfWeek(dateStr: string): string {
@@ -49,20 +48,20 @@ export default function UserPage() {
     const yesterday = format(subDays(new Date(), 1), "yyyy-MM-dd");
 
     try {
-      const waitingRes = await axios.get(
-        `${getScarTechURL()}/api/schedules/?release_expected_date__lte=${yesterday}&release_status=대기`
+      const waitingRes = await api.get(
+        `/api/schedules/?release_expected_date__lte=${yesterday}&release_status=대기`
       );
       if (waitingRes.status !== 200)
         throw new Error("Failed to fetch schedules");
-      const emergencyRes = await axios.get(
-        `${getScarTechURL()}/api/schedules/?release_expected_date__lte=${yesterday}&release_status=응급`
+      const emergencyRes = await api.get(
+        `/api/schedules/?release_expected_date__lte=${yesterday}&release_status=응급`
       );
       if (emergencyRes.status !== 200)
         throw new Error("Failed to fetch schedules");
       const delayedData = [...waitingRes.data, ...emergencyRes.data];
       setDelayedSchedules(delayedData);
-      const workingRes = await axios.get(
-        `${getScarTechURL()}/api/schedules/?release_expected_date__gte=${today}`
+      const workingRes = await api.get(
+        `/api/schedules/?release_expected_date__gte=${today}`
       );
       if (workingRes.status !== 200)
         throw new Error("Failed to fetch Working Schedules");
@@ -78,8 +77,8 @@ export default function UserPage() {
   const handleUpdateComponent = async (schedule: Schedule) => {
     if (schedule.id) {
       const data: Schedule = {...schedule, component: schedule.component};
-      const res = await axios.put(
-        `${getScarTechURL()}/api/schedules/${schedule.id}/`,
+      const res = await api.put(
+        `/api/schedules/${schedule.id}/`,
         data
       );
       if (res.status !== 200) {
@@ -93,8 +92,8 @@ export default function UserPage() {
   const handleUpdateParking = async (schedule: Schedule) => {
     if (schedule.id) {
       const data: Schedule = {...schedule, parking: schedule.parking};
-      const res = await axios.put(
-        `${getScarTechURL()}/api/schedules/${schedule.id}/`,
+      const res = await api.put(
+        `/api/schedules/${schedule.id}/`,
         data
       );
       if (res.status !== 200) {
@@ -108,8 +107,8 @@ export default function UserPage() {
   const handleUpdateWorker = async (schedule: Schedule) => {
     if (schedule.id) {
       const data: Schedule = {...schedule, worker: schedule.worker};
-      const res = await axios.put(
-        `${getScarTechURL()}/api/schedules/${schedule.id}/`,
+      const res = await api.put(
+        `/api/schedules/${schedule.id}/`,
         data
       );
       if (res.status !== 200) {
@@ -126,8 +125,8 @@ export default function UserPage() {
         ...schedule,
         plate_status: getToggledStatus(schedule.plate_status),
       };
-      const res = await axios.put(
-        `${getScarTechURL()}/api/schedules/${schedule.id}/`,
+      const res = await api.put(
+        `/api/schedules/${schedule.id}/`,
         data
       );
       if (res.status !== 200) {
@@ -142,8 +141,8 @@ export default function UserPage() {
         ...schedule,
         bottom_status: getToggledStatus(schedule.bottom_status),
       };
-      const res = await axios.put(
-        `${getScarTechURL()}/api/schedules/${schedule.id}/`,
+      const res = await api.put(
+        `/api/schedules/${schedule.id}/`,
         data
       );
       if (res.status !== 200) {
@@ -158,8 +157,8 @@ export default function UserPage() {
         ...schedule,
         paint_status: getToggledStatus(schedule.paint_status),
       };
-      const res = await axios.put(
-        `${getScarTechURL()}/api/schedules/${schedule.id}/`,
+      const res = await api.put(
+        `/api/schedules/${schedule.id}/`,
         data
       );
       if (res.status !== 200) {
@@ -174,8 +173,8 @@ export default function UserPage() {
         ...schedule,
         common_status: getToggledStatus(schedule.common_status),
       };
-      const res = await axios.put(
-        `${getScarTechURL()}/api/schedules/${schedule.id}/`,
+      const res = await api.put(
+        `/api/schedules/${schedule.id}/`,
         data
       );
       if (res.status !== 200) {
@@ -190,8 +189,8 @@ export default function UserPage() {
         ...schedule,
         release_status: getToggledStatus(schedule.release_status),
       };
-      const res = await axios.put(
-        `${getScarTechURL()}/api/schedules/${schedule.id}/`,
+      const res = await api.put(
+        `/api/schedules/${schedule.id}/`,
         data
       );
       if (res.status !== 200) {

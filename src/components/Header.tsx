@@ -1,7 +1,7 @@
 "use client";
 import {creatingSchuedule, Schedule} from "@/type/schedule";
 import {getScarTechURL} from "@/utility/utility";
-import axios from "axios";
+import {api} from "@/utility/api";
 import Image from "next/image";
 import Link from "next/link";
 import {usePathname, useRouter} from "next/navigation"; // ✅ App Router용
@@ -19,10 +19,7 @@ export default function Header() {
   const handleCreatingSchedule = async (schedule: Schedule) => {
     console.log("💾 Saving schedule:", schedule);
     if (!schedule.id) {
-      const res = await axios.post(
-        `${getScarTechURL()}/api/schedules/`,
-        schedule
-      );
+      const res = await api.post("/api/schedules/", schedule);
       if (res.status !== 201) {
         alert("에러가 발생했습니다.");
       }
