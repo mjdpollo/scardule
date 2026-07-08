@@ -33,6 +33,7 @@ export type Schedule = {
   number_of_repairs: number | null;
 
   component: string | null;
+  parking: PARKING | null;
   worker: string | null;
 
   plate_status: STATUS;
@@ -78,6 +79,13 @@ export enum DEPARTMENT {
   BUNDANG = "남분당",
 }
 
+export enum PARKING {
+  B1 = "B1",
+  F1 = "1F",
+  F2 = "2F",
+  F3 = "3F",
+}
+
 export const creatingSchuedule: Schedule = {
   id: null,
   stock_date: null,
@@ -109,6 +117,7 @@ export const creatingSchuedule: Schedule = {
   trunk: null,
   number_of_repairs: 0,
   component: "",
+  parking: null,
   worker: "",
   plate_status: STATUS.WAIT,
   bottom_status: STATUS.WAIT,

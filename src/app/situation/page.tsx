@@ -1,6 +1,7 @@
 "use client";
 // app/user/page.tsx
 import ComponentModal from "@/components/ComponentModal";
+import ParkingModal from "@/components/ParkingModal";
 import UserScheduleRow from "@/components/UserScheduleRow";
 import WorkerModal from "@/components/WorkerModal";
 import {
@@ -30,12 +31,16 @@ export default function UserPage() {
     null
   );
   const [showComponentModal, setShowComponentModal] = useState(false);
+  const [showParkingModal, setShowParkingModal] = useState(false);
   const [showWorkerModal, setShowWorkerModal] = useState(false);
   const workerModalForm = useForm<Schedule>();
   const componentModalForm = useForm<Schedule>();
+  const parkingModalForm = useForm<Schedule>();
 
   const openComponentModal = () => setShowComponentModal(true);
   const closeComponentModal = () => setShowComponentModal(false);
+  const openParkingModal = () => setShowParkingModal(true);
+  const closeParkingModal = () => setShowParkingModal(false);
   const openWorkerModal = () => setShowWorkerModal(true);
   const closeWorkerModal = () => setShowWorkerModal(false);
 
@@ -83,6 +88,21 @@ export default function UserPage() {
     }
     await fetchSchedules();
     closeComponentModal();
+  };
+
+  const handleUpdateParking = async (schedule: Schedule) => {
+    if (schedule.id) {
+      const data: Schedule = {...schedule, parking: schedule.parking};
+      const res = await axios.put(
+        `${getScarTechURL()}/api/schedules/${schedule.id}/`,
+        data
+      );
+      if (res.status !== 200) {
+        alert("에러가 발생했습니다.");
+      }
+    }
+    await fetchSchedules();
+    closeParkingModal();
   };
 
   const handleUpdateWorker = async (schedule: Schedule) => {
@@ -201,7 +221,7 @@ export default function UserPage() {
                 <Fragment key={date.toString()}>
                   <tr className="bg-yellow-100 font-bold text-center">
                     <td
-                      colSpan={14}
+                      colSpan={15}
                       className="border-[0.5px] border-black px-2 py-2"
                     >
                       {date} ({getKoreanDayOfWeek(date)})
@@ -221,13 +241,17 @@ export default function UserPage() {
                     <UserScheduleRow
                       key={schedule.id}
                       schedule={schedule}
-                      openWorkerModal={(schedule) => {
-                        setSelectedSchedule(schedule);
-                        openWorkerModal();
-                      }}
                       openComponentModal={(schedule) => {
                         setSelectedSchedule(schedule);
                         openComponentModal();
+                      }}
+                      openParkingModal={(schedule) => {
+                        setSelectedSchedule(schedule);
+                        openParkingModal();
+                      }}
+                      openWorkerModal={(schedule) => {
+                        setSelectedSchedule(schedule);
+                        openWorkerModal();
                       }}
                       handleUpdatePlateStatus={handleUpdatePlateStatus}
                       handleUpdateBottomStatus={handleUpdateBottomStatus}
@@ -253,7 +277,7 @@ export default function UserPage() {
                 <Fragment key={date.toString()}>
                   <tr className="bg-yellow-100 font-bold text-center">
                     <td
-                      colSpan={14}
+                      colSpan={15}
                       className="border-[0.5px] border-black px-2 py-2"
                     >
                       {date} ({getKoreanDayOfWeek(date)})
@@ -276,6 +300,10 @@ export default function UserPage() {
                       openComponentModal={(schedule) => {
                         setSelectedSchedule(schedule);
                         openComponentModal();
+                      }}
+                      openParkingModal={(schedule) => {
+                        setSelectedSchedule(schedule);
+                        openParkingModal();
                       }}
                       openWorkerModal={(schedule) => {
                         setSelectedSchedule(schedule);
@@ -300,6 +328,14 @@ export default function UserPage() {
           visible={showWorkerModal}
           handleClose={closeWorkerModal}
           onSubmit={handleUpdateWorker}
+          schedule={selectedSchedule}
+        />
+      </FormProvider>
+      <FormProvider {...parkingModalForm}>
+        <ParkingModal
+          visible={showParkingModal}
+          handleClose={closeParkingModal}
+          onSubmit={handleUpdateParking}
           schedule={selectedSchedule}
         />
       </FormProvider>

@@ -9,6 +9,7 @@ import {useFormContext} from "react-hook-form";
 import BPXPField from "./BPXPField";
 import DepartmentSelectField from "./DepartmentSelectField";
 import NumberField from "./NumberInput";
+import ParkingSelectField from "./ParkingSelectField";
 import {
   BottomStatusSelectField,
   CommonStatusSelectField,
@@ -65,6 +66,10 @@ export default function ScheduleModal({
             <div>
               <label className="block mb-1">지점</label>
               <DepartmentSelectField />
+            </div>
+            <div>
+              <label className="block mb-1">주차장</label>
+              <ParkingSelectField />
             </div>
             <div className="col-span-4 font-semibold border-b pb-1">
               날짜정보

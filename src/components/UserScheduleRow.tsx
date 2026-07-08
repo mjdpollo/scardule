@@ -14,6 +14,7 @@ export function lockedStatusAlert(schedule: Schedule): boolean {
 interface Props {
   schedule: Schedule;
   openComponentModal: (schedule: Schedule) => void;
+  openParkingModal: (schedule: Schedule) => void;
   openWorkerModal: (schedule: Schedule) => void;
   handleUpdatePlateStatus: (schedule: Schedule) => void;
   handleUpdateBottomStatus: (schedule: Schedule) => void;
@@ -26,6 +27,7 @@ interface Props {
 export default function UserScheduleRow({
   schedule,
   openComponentModal,
+  openParkingModal,
   openWorkerModal,
   handleUpdatePlateStatus,
   handleUpdateBottomStatus,
@@ -79,6 +81,16 @@ export default function UserScheduleRow({
         }}
       >
         {schedule.component}
+      </td>
+      <td
+        className="border-[0.5px] border-black text-base 1 py-1 cursor-pointer bg-amber-50"
+        onClick={() => {
+          if (!lockedStatusAlert(schedule)) {
+            openParkingModal(schedule);
+          }
+        }}
+      >
+        {schedule.parking}
       </td>
       <td
         className="border-[0.5px] border-black text-base 1 py-1 cursor-pointer bg-amber-50"
