@@ -26,6 +26,9 @@ import UserTableHeader from "../../components/UserTableHeader";
 export default function UserPage() {
   const [workingSchedules, setWorkingSchedules] = useState<Schedule[]>([]);
   const [delayedSchedules, setDelayedSchedules] = useState<Schedule[]>([]);
+  const [vacationersByDate, setVacationersByDate] = useState<
+    Record<string, string>
+  >({});
   const [selectedSchedule, setSelectedSchedule] = useState<Schedule | null>(
     null
   );
@@ -69,6 +72,31 @@ export default function UserPage() {
       setWorkingSchedules(workingData);
       console.log("delatedData: ", delayedData);
       console.log("workingData: ", workingData);
+      await fetchVacationers([...delayedData, ...workingData]);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const fetchVacationers = async (schedules: Schedule[]) => {
+    const dates = schedules
+      .map((s) => s.release_expected_date)
+      .filter((d): d is string => !!d)
+      .sort();
+    if (dates.length === 0) {
+      setVacationersByDate({});
+      return;
+    }
+    try {
+      const res = await api.get(
+        `/api/vacations/?date__gte=${dates[0]}&date__lte=${dates[dates.length - 1]}`
+      );
+      if (res.status !== 200) throw new Error("Failed to fetch vacations");
+      const map: Record<string, string> = {};
+      (res.data as {date: string; vacationers: string}[]).forEach((v) => {
+        if (v.vacationers) map[v.date] = v.vacationers;
+      });
+      setVacationersByDate(map);
     } catch (err) {
       console.error(err);
     }
@@ -224,6 +252,11 @@ export default function UserPage() {
                       className="border-[0.5px] border-black px-2 py-2"
                     >
                       {date} ({getKoreanDayOfWeek(date)})
+                      {vacationersByDate[date] && (
+                        <span className="ml-3 text-red-700 font-normal text-sm">
+                          휴가자: {vacationersByDate[date]}
+                        </span>
+                      )}
                     </td>
                     <td
                       colSpan={2}
@@ -280,6 +313,11 @@ export default function UserPage() {
                       className="border-[0.5px] border-black px-2 py-2"
                     >
                       {date} ({getKoreanDayOfWeek(date)})
+                      {vacationersByDate[date] && (
+                        <span className="ml-3 text-red-700 font-normal text-sm">
+                          휴가자: {vacationersByDate[date]}
+                        </span>
+                      )}
                     </td>
                     <td
                       colSpan={2}

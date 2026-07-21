@@ -2,19 +2,27 @@
 import {creatingSchuedule, Schedule} from "@/type/schedule";
 import {getScarTechURL} from "@/utility/utility";
 import {api} from "@/utility/api";
+import {fetchCurrentUser} from "@/utility/auth";
 import Image from "next/image";
 import Link from "next/link";
 import {usePathname, useRouter} from "next/navigation"; // ✅ App Router용
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {FormProvider, useForm} from "react-hook-form";
 import ScheduleModal from "./ScheduleModal";
+import VacationWeekModal from "./VacationWeekModal";
 
 export default function Header() {
   const router = useRouter(); // ← assign this!
   const [showModal, setShowModal] = useState(false);
+  const [showVacationModal, setShowVacationModal] = useState(false);
+  const [editable, setEditable] = useState(false);
   const CreatingScheduleForm = useForm<Schedule>({
     defaultValues: creatingSchuedule,
   });
+
+  useEffect(() => {
+    fetchCurrentUser().then((user) => setEditable(user?.editable ?? false));
+  }, []);
 
   const handleCreatingSchedule = async (schedule: Schedule) => {
     console.log("💾 Saving schedule:", schedule);
@@ -37,6 +45,8 @@ export default function Header() {
 
   const openCreatingScheduleModal = () => setShowModal(true);
   const closeCreatingScheduleModal = () => setShowModal(false);
+  const openVacationModal = () => setShowVacationModal(true);
+  const closeVacationModal = () => setShowVacationModal(false);
 
   const pathname = usePathname();
 
@@ -63,6 +73,12 @@ export default function Header() {
               className="w-30 h-10 px-4 py-2 mx-2 cursor-pointer bg-scar-orange rounded hover:outline-2 hover:outline-amber-200"
             >
               일정등록
+            </button>
+            <button
+              onClick={openVacationModal}
+              className="w-30 h-10 px-4 py-2 mx-2 cursor-pointer bg-lime-200 rounded hover:outline-2 hover:outline-lime-400"
+            >
+              휴가관리
             </button>
             <Link href="/scheduler" className={linkClass("/scheduler")}>
               일정관리
@@ -98,6 +114,11 @@ export default function Header() {
           schedule={creatingSchuedule}
         />
       </FormProvider>
+      <VacationWeekModal
+        visible={showVacationModal}
+        editable={editable}
+        handleClose={closeVacationModal}
+      />
     </>
   );
 }

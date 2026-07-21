@@ -19,6 +19,7 @@ type DecodedToken = {
   user_id: number;
   role: ROLE;
   username: string;
+  editable: boolean;
 };
 
 export const Auth = {
@@ -52,7 +53,7 @@ export function middleware(request: NextRequest) {
 
   const isUserAvailable = ["/situation"].includes(pathname);
   const isSchedulerAvailable = ["/situation", "/scheduler", "/week"].includes(
-    pathname,
+    pathname
   );
 
   if (!token) {

@@ -1,8 +1,9 @@
 "use client";
 
 import {Schedule} from "@/type/schedule";
+import {api} from "@/utility/api";
 import {format} from "date-fns";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {useFormContext} from "react-hook-form";
@@ -40,6 +41,32 @@ export default function ScheduleModal({
       reset(schedule);
     }
   }, [schedule, reset]);
+
+  const [releaseExpectedDateVacationers, setReleaseExpectedDateVacationers] =
+    useState("");
+  const releaseExpectedDate = watch("release_expected_date");
+
+  useEffect(() => {
+    if (!releaseExpectedDate) {
+      setReleaseExpectedDateVacationers("");
+      return;
+    }
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await api.get(`/api/vacations/${releaseExpectedDate}/`);
+        if (!cancelled && res.status === 200) {
+          setReleaseExpectedDateVacationers(res.data.vacationers || "");
+        }
+      } catch (err) {
+        console.error(err);
+        if (!cancelled) setReleaseExpectedDateVacationers("");
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [releaseExpectedDate]);
 
   if (!schedule) return null;
   if (!visible) return null;
@@ -92,7 +119,15 @@ export default function ScheduleModal({
               />
             </div>
             <div className="col-span-1">
-              <label className="block mb-1">출고예정일</label>
+              <label className="block mb-1">
+                출고예정일
+                {releaseExpectedDateVacationers && (
+                  <span className="text-red-600 font-normal">
+                    {" "}
+                    (휴가자: {releaseExpectedDateVacationers})
+                  </span>
+                )}
+              </label>
               <div className="w-full">
                 <DatePicker
                   selected={
