@@ -8,8 +8,7 @@
 #      - 새 빌드가 있거나 online이 아님 → 재시작
 #   3) pm2 save, HTTP 응답 확인
 #
-# 서버 최초 1회 설정:
-#   ln -sf ~/scardule/scripts/deploy.sh ~/deploy_scardule.sh
+# 워크플로가 origin/main 의 이 파일 내용을 bash -c 로 실행하므로 서버에 별도 설정은 필요 없다.
 
 APP_NAME="scardule"
 APP_DIR="${APP_DIR:-$HOME/scardule}"

@@ -15,4 +15,9 @@ jobs:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.SCARDULE_DEPLOY_KEY }}
-          script: bash ~/deploy_scardule.sh
+          # 서버 체크아웃이 뒤처져 있어도 항상 origin/main 의 최신 배포 스크립트를 실행
+          script: |
+            set -e
+            cd ~/scardule
+            git fetch origin main
+            bash -c "$(git show origin/main:scripts/deploy.sh)"
